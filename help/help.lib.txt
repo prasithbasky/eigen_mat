@@ -1,0 +1,361 @@
+Microsoft (R) COFF/PE Dumper Version 14.44.35211.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file help.lib
+
+File Type: LIBRARY
+
+Archive member name at 5E6: hewrite.obj/    
+69A710D1 time/date Tue Mar  3 17:48:17 2026
+         uid
+         gid
+  100666 mode
+     37C size
+correct header end
+
+Archive member name at 99E: hetypria.obj/   
+69A710D1 time/date Tue Mar  3 17:48:17 2026
+         uid
+         gid
+  100666 mode
+     54A size
+correct header end
+
+Archive member name at F24: hetyprex.obj/   
+69A710D1 time/date Tue Mar  3 17:48:17 2026
+         uid
+         gid
+  100666 mode
+     814 size
+correct header end
+
+Archive member name at 1774: hetypres.obj/   
+69A710D0 time/date Tue Mar  3 17:48:16 2026
+         uid
+         gid
+  100666 mode
+     709 size
+correct header end
+
+Archive member name at 1EBA: hetypree.obj/   
+69A710D0 time/date Tue Mar  3 17:48:16 2026
+         uid
+         gid
+  100666 mode
+     778 size
+correct header end
+
+Archive member name at 266E: hetyprea.obj/   
+69A710D0 time/date Tue Mar  3 17:48:16 2026
+         uid
+         gid
+  100666 mode
+     501 size
+correct header end
+
+Archive member name at 2BAC: hetypint.obj/   
+69A710D0 time/date Tue Mar  3 17:48:16 2026
+         uid
+         gid
+  100666 mode
+     4F2 size
+correct header end
+
+Archive member name at 30DA: hetypdbe.obj/   
+69A710D0 time/date Tue Mar  3 17:48:16 2026
+         uid
+         gid
+  100666 mode
+     70E size
+correct header end
+
+Archive member name at 3824: hetypdb.obj/    
+69A710D0 time/date Tue Mar  3 17:48:16 2026
+         uid
+         gid
+  100666 mode
+     566 size
+correct header end
+
+Archive member name at 3DC6: hetypcha.obj/   
+69A710CF time/date Tue Mar  3 17:48:15 2026
+         uid
+         gid
+  100666 mode
+     50B size
+correct header end
+
+Archive member name at 430E: hestis.obj/     
+69A710CF time/date Tue Mar  3 17:48:15 2026
+         uid
+         gid
+  100666 mode
+     459 size
+correct header end
+
+Archive member name at 47A4: heread.obj/     
+69A710CF time/date Tue Mar  3 17:48:15 2026
+         uid
+         gid
+  100666 mode
+     4F2 size
+correct header end
+
+Archive member name at 4CD2: hereach.obj/    
+69A710CF time/date Tue Mar  3 17:48:15 2026
+         uid
+         gid
+  100666 mode
+     3EC size
+correct header end
+
+Archive member name at 50FA: heopen.obj/     
+69A710CF time/date Tue Mar  3 17:48:15 2026
+         uid
+         gid
+  100666 mode
+    121B size
+correct header end
+
+Archive member name at 6352: helpus.obj/     
+69A710CF time/date Tue Mar  3 17:48:15 2026
+         uid
+         gid
+  100666 mode
+     399 size
+correct header end
+
+Archive member name at 6728: heleze.obj/     
+69A710CF time/date Tue Mar  3 17:48:15 2026
+         uid
+         gid
+  100666 mode
+     62B size
+correct header end
+
+Archive member name at 6D90: helerz.obj/     
+69A710CF time/date Tue Mar  3 17:48:15 2026
+         uid
+         gid
+  100666 mode
+     441 size
+correct header end
+
+Archive member name at 720E: helerea.obj/    
+69A710CF time/date Tue Mar  3 17:48:15 2026
+         uid
+         gid
+  100666 mode
+     714 size
+correct header end
+
+Archive member name at 795E: helejn.obj/     
+69A710CE time/date Tue Mar  3 17:48:14 2026
+         uid
+         gid
+  100666 mode
+     AB5 size
+correct header end
+
+Archive member name at 8450: heleint.obj/    
+69A710CE time/date Tue Mar  3 17:48:14 2026
+         uid
+         gid
+  100666 mode
+     766 size
+correct header end
+
+Archive member name at 8BF2: heleer.obj/     
+69A710CE time/date Tue Mar  3 17:48:14 2026
+         uid
+         gid
+  100666 mode
+     411 size
+correct header end
+
+Archive member name at 9040: heinqun.obj/    
+69A710CE time/date Tue Mar  3 17:48:14 2026
+         uid
+         gid
+  100666 mode
+     3A1 size
+correct header end
+
+Archive member name at 941E: heinqu.obj/     
+69A710CE time/date Tue Mar  3 17:48:14 2026
+         uid
+         gid
+  100666 mode
+     41D size
+correct header end
+
+Archive member name at 9878: heinqnm.obj/    
+69A710CE time/date Tue Mar  3 17:48:14 2026
+         uid
+         gid
+  100666 mode
+     3D6 size
+correct header end
+
+Archive member name at 9C8A: heinou.obj/     
+69A710CE time/date Tue Mar  3 17:48:14 2026
+         uid
+         gid
+  100666 mode
+     821 size
+correct header end
+
+Archive member name at A4E8: heinit.obj/     
+69A710CE time/date Tue Mar  3 17:48:14 2026
+         uid
+         gid
+  100666 mode
+     7D4 size
+correct header end
+
+Archive member name at ACF8: heinch.obj/     
+69A710CD time/date Tue Mar  3 17:48:13 2026
+         uid
+         gid
+  100666 mode
+     A52 size
+correct header end
+
+Archive member name at B786: hehread.obj/    
+69A710CD time/date Tue Mar  3 17:48:13 2026
+         uid
+         gid
+  100666 mode
+    14BF size
+correct header end
+
+Archive member name at CC82: hefnag.obj/     
+69A710CD time/date Tue Mar  3 17:48:13 2026
+         uid
+         gid
+  100666 mode
+     6F8 size
+correct header end
+
+Archive member name at D3B6: hefimk.obj/     
+69A710CD time/date Tue Mar  3 17:48:13 2026
+         uid
+         gid
+  100666 mode
+    1532 size
+correct header end
+
+Archive member name at E924: hefehl.obj/     
+69A710CD time/date Tue Mar  3 17:48:13 2026
+         uid
+         gid
+  100666 mode
+     224 size
+correct header end
+
+Archive member name at EB84: heenter.obj/    
+69A710CD time/date Tue Mar  3 17:48:13 2026
+         uid
+         gid
+  100666 mode
+     5B1 size
+correct header end
+
+Archive member name at F172: heedit.obj/     
+69A710CD time/date Tue Mar  3 17:48:13 2026
+         uid
+         gid
+  100666 mode
+     812 size
+correct header end
+
+Archive member name at F9C0: hedef.obj/      
+69A710CD time/date Tue Mar  3 17:48:13 2026
+         uid
+         gid
+  100666 mode
+     291 size
+correct header end
+
+Archive member name at FC8E: hecorr.obj/     
+69A710CD time/date Tue Mar  3 17:48:13 2026
+         uid
+         gid
+  100666 mode
+     3C4 size
+correct header end
+
+Archive member name at 1008E: hecomm.obj/     
+69A710CD time/date Tue Mar  3 17:48:13 2026
+         uid
+         gid
+  100666 mode
+     454 size
+correct header end
+
+Archive member name at 1051E: heclose.obj/    
+69A710CC time/date Tue Mar  3 17:48:12 2026
+         uid
+         gid
+  100666 mode
+     366 size
+correct header end
+
+Archive member name at 108C0: heclear.obj/    
+69A710CC time/date Tue Mar  3 17:48:12 2026
+         uid
+         gid
+  100666 mode
+     534 size
+correct header end
+
+Archive member name at 10E30: hechtyp.obj/    
+69A710CC time/date Tue Mar  3 17:48:12 2026
+         uid
+         gid
+  100666 mode
+     81F size
+correct header end
+
+Archive member name at 1168C: hechse.obj/     
+69A710CC time/date Tue Mar  3 17:48:12 2026
+         uid
+         gid
+  100666 mode
+     712 size
+correct header end
+
+Archive member name at 11DDA: hechs2.obj/     
+69A710CC time/date Tue Mar  3 17:48:12 2026
+         uid
+         gid
+  100666 mode
+     AA1 size
+correct header end
+
+Archive member name at 128B8: hechdot.obj/    
+69A710CC time/date Tue Mar  3 17:48:12 2026
+         uid
+         gid
+  100666 mode
+     53A size
+correct header end
+
+Archive member name at 12E2E: hechanz.obj/    
+69A710CC time/date Tue Mar  3 17:48:12 2026
+         uid
+         gid
+  100666 mode
+     567 size
+correct header end
+
+  Summary
+
+         609 .bss
+        13D0 .data
+        1EBD .drectve
+         1EC .pdata
+         4BF .rdata
+        47A0 .text
+         2BC .xdata

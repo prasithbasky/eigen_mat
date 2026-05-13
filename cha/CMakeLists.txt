@@ -1,0 +1,23 @@
+add_library(eigen_cha STATIC
+    chatest.f
+    chlaen.f
+    cralpa.f
+    crchan.f
+    crdeli.f
+    crdigi.f
+    creos.f
+    crfind.f
+    criany.f
+    crint.f
+    crinte.f
+    crkw.f
+    crmsg.f
+    crnams.f
+    crprot.f
+    crreal.f
+    crsign.f
+    crspec.f
+    crwhat.f
+    crwrit.f
+    upcase.f
+)

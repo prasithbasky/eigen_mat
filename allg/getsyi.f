@@ -1,0 +1,19 @@
+	CHARACTER*15		SYSTEMID
+	INTEGER			STAT
+	INTEGER			LIB$GETSYI
+	INTEGER*2		LLL
+	INTEGER*4		LN
+	INCLUDE			'($SYIDEF)'
+C
+	stat=LIB$GETSYI(SYI$_NODE_SYSTEMID
+     *,
+     *,SYSTEMID
+     *,
+     *,
+     *,				   	)
+C
+	IF (.NOT.STAT) CALL LIB$SIGNAL(%VAL(STAT))
+C
+	PRINT *, ' SYSTEMID                          : ',SYSTEMID
+C
+	END

@@ -1,0 +1,21 @@
+add_library(eigen_allg STATIC
+    chlaen.f
+    clear.f
+    ddate.f
+    enter.f
+    getdat.f
+    gettim.f
+    header.f
+    komaus.f
+    mnrlen.f
+    qlcase.f
+    qltrim.f
+    qrdrucke.f
+    qrtrim.f
+    qspace.f
+    qstlng.f
+    qtest.f
+    qucase.f
+    strgrb.f
+    timdat.f
+)
