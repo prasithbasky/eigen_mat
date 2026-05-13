@@ -33,6 +33,12 @@ cd build
 cmake ..
 make
 ```
+#### Building on Windows 
+- for Windows there is a build.bat script, follow these steps
+- Open the "Intel oneAPI command prompt for Visual Studio".
+- Navigate to the eigen_mat folder.
+- Type build.bat and press Enter.
+
 
 ### Executables
 - `build/test/eigenvalue`: Main menu program.
