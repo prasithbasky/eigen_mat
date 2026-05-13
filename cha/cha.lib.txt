@@ -1,0 +1,185 @@
+Microsoft (R) COFF/PE Dumper Version 14.44.35211.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file cha.lib
+
+File Type: LIBRARY
+
+Archive member name at 46E: upcase.obj/     
+69A70F97 time/date Tue Mar  3 17:43:03 2026
+         uid
+         gid
+  100666 mode
+     49C size
+correct header end
+
+Archive member name at 946: crwrit.obj/     
+69A70F97 time/date Tue Mar  3 17:43:03 2026
+         uid
+         gid
+  100666 mode
+     68A size
+correct header end
+
+Archive member name at 100C: crwhat.obj/     
+69A70F97 time/date Tue Mar  3 17:43:03 2026
+         uid
+         gid
+  100666 mode
+     5DD size
+correct header end
+
+Archive member name at 1626: crspec.obj/     
+69A70F97 time/date Tue Mar  3 17:43:03 2026
+         uid
+         gid
+  100666 mode
+     38C size
+correct header end
+
+Archive member name at 19EE: crsign.obj/     
+69A70F97 time/date Tue Mar  3 17:43:03 2026
+         uid
+         gid
+  100666 mode
+     238 size
+correct header end
+
+Archive member name at 1C62: crreal.obj/     
+69A70F97 time/date Tue Mar  3 17:43:03 2026
+         uid
+         gid
+  100666 mode
+     C00 size
+correct header end
+
+Archive member name at 289E: crprot.obj/     
+69A70F96 time/date Tue Mar  3 17:43:02 2026
+         uid
+         gid
+  100666 mode
+     246 size
+correct header end
+
+Archive member name at 2B20: crnams.obj/     
+69A70F96 time/date Tue Mar  3 17:43:02 2026
+         uid
+         gid
+  100666 mode
+    16EA size
+correct header end
+
+Archive member name at 4246: crmsg.obj/      
+69A70F96 time/date Tue Mar  3 17:43:02 2026
+         uid
+         gid
+  100666 mode
+     4B5 size
+correct header end
+
+Archive member name at 4738: crkw.obj/       
+69A70F96 time/date Tue Mar  3 17:43:02 2026
+         uid
+         gid
+  100666 mode
+     56F size
+correct header end
+
+Archive member name at 4CE4: crinte.obj/     
+69A70F96 time/date Tue Mar  3 17:43:02 2026
+         uid
+         gid
+  100666 mode
+     53C size
+correct header end
+
+Archive member name at 525C: crint.obj/      
+69A70F96 time/date Tue Mar  3 17:43:02 2026
+         uid
+         gid
+  100666 mode
+     7B4 size
+correct header end
+
+Archive member name at 5A4C: criany.obj/     
+69A70F96 time/date Tue Mar  3 17:43:02 2026
+         uid
+         gid
+  100666 mode
+     6F1 size
+correct header end
+
+Archive member name at 617A: crfind.obj/     
+69A70F95 time/date Tue Mar  3 17:43:01 2026
+         uid
+         gid
+  100666 mode
+     493 size
+correct header end
+
+Archive member name at 664A: creos.obj/      
+69A70F95 time/date Tue Mar  3 17:43:01 2026
+         uid
+         gid
+  100666 mode
+     22E size
+correct header end
+
+Archive member name at 68B4: crdigi.obj/     
+69A70F95 time/date Tue Mar  3 17:43:01 2026
+         uid
+         gid
+  100666 mode
+     40B size
+correct header end
+
+Archive member name at 6CFC: crdeli.obj/     
+69A70F95 time/date Tue Mar  3 17:43:01 2026
+         uid
+         gid
+  100666 mode
+     332 size
+correct header end
+
+Archive member name at 706A: crchan.obj/     
+69A70F95 time/date Tue Mar  3 17:43:01 2026
+         uid
+         gid
+  100666 mode
+     B13 size
+correct header end
+
+Archive member name at 7BBA: cralpa.obj/     
+69A70F95 time/date Tue Mar  3 17:43:01 2026
+         uid
+         gid
+  100666 mode
+     40B size
+correct header end
+
+Archive member name at 8002: chlaen.obj/     
+69A70F95 time/date Tue Mar  3 17:43:01 2026
+         uid
+         gid
+  100666 mode
+     2FE size
+correct header end
+
+Archive member name at 833C: chatest.obj/    
+69A70F94 time/date Tue Mar  3 17:43:00 2026
+         uid
+         gid
+  100666 mode
+    4ABD size
+correct header end
+
+  Summary
+
+         2C4 .bss
+         4C4 .data
+         F03 .drectve
+          CC .pdata
+         7BE .rdata
+        4B4A .text
+         13C .xdata

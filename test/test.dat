@@ -1,0 +1,41 @@
+!
+!------------------------------------------------------------+
+!                                                            |
+!    Testdateien: Achtung, zwischen den Dateien muss eine    |
+!    Leerzeile sein, wenn der obere Datensatz verwendet      |
+!    werden soll.                                            |
+!                                                            |
+!------------------------------------------------------------+
+!
+!    Das sind alte Testdaten im Real Format
+!
+!       0.0D+00    -1.0D+00     1.0D+00     0.0D+00
+!       6.0D+00     5.0D+00     3.0D+00     0.0D+00
+!     -10.0D+00    -5.0D+00     1.0D+00     0.0D+00
+!     -14.0D+00   -23.0D+00    53.0D+00    18.0D+00
+!
+!
+! *** Beispiel aus math Repetitorium
+!
+!      0.0     -1.0    1.0      0.0
+!      6.0      5.0    3.0      0.0
+!    -10.0     -5.0    1.0      0.0
+!    -14.0    -23.0   53.0     18.0
+!
+!
+! *** Vergleichsdaten im Real Format
+!
+!     -2.0        2.0      2.0       2.0
+!     -3.0        3.0      2.0       2.0
+!     -2.0        0.0      4.0       2.0
+!     -1.0        0.0      0.0       5.0
+!
+!
+! *** Das sind die Vergleichsdaten der anderen
+!     Verfahren im Double Precision Format
+!
+      -.2000D+01  .2000D+01  .2000D+01  .2000D+01
+!     -.3000D+01          a  .2000D+01  .2000D+01
+      -.3000D+01  .3000D+01  .2000D+01  .2000D+01
+      -.2000D+01  .0000D+00  .4000D+01  .2000D+01
+      -.1000D+01  .0000D+00  .0000D+00  .5000D+01

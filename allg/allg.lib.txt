@@ -1,0 +1,161 @@
+Microsoft (R) COFF/PE Dumper Version 14.44.35211.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file allg.lib
+
+File Type: LIBRARY
+
+Archive member name at 234: timdat.obj/     
+69A441C6 time/date Sun Mar  1 14:40:22 2026
+         uid
+         gid
+  100666 mode
+     5A4 size
+correct header end
+
+Archive member name at 814: strgrb.obj/     
+69A441C6 time/date Sun Mar  1 14:40:22 2026
+         uid
+         gid
+  100666 mode
+     32F size
+correct header end
+
+Archive member name at B80: qucase.obj/     
+69A441C6 time/date Sun Mar  1 14:40:22 2026
+         uid
+         gid
+  100666 mode
+     5AB size
+correct header end
+
+Archive member name at 1168: qstlng.obj/     
+69A441C5 time/date Sun Mar  1 14:40:21 2026
+         uid
+         gid
+  100666 mode
+     27F size
+correct header end
+
+Archive member name at 1424: qspace.obj/     
+69A441C5 time/date Sun Mar  1 14:40:21 2026
+         uid
+         gid
+  100666 mode
+     40B size
+correct header end
+
+Archive member name at 186C: qrtrim.obj/     
+69A441C5 time/date Sun Mar  1 14:40:21 2026
+         uid
+         gid
+  100666 mode
+     485 size
+correct header end
+
+Archive member name at 1D2E: qrdrucke.obj/   
+69A441C5 time/date Sun Mar  1 14:40:21 2026
+         uid
+         gid
+  100666 mode
+     D7D size
+correct header end
+
+Archive member name at 2AE8: qltrim.obj/     
+69A441C5 time/date Sun Mar  1 14:40:21 2026
+         uid
+         gid
+  100666 mode
+     360 size
+correct header end
+
+Archive member name at 2E84: qlcase.obj/     
+69A441C5 time/date Sun Mar  1 14:40:21 2026
+         uid
+         gid
+  100666 mode
+     5AB size
+correct header end
+
+Archive member name at 346C: mnrlen.obj/     
+69A441C4 time/date Sun Mar  1 14:40:20 2026
+         uid
+         gid
+  100666 mode
+     2BC size
+correct header end
+
+Archive member name at 3764: komaus.obj/     
+69A441C4 time/date Sun Mar  1 14:40:20 2026
+         uid
+         gid
+  100666 mode
+     32B size
+correct header end
+
+Archive member name at 3ACC: header.obj/     
+69A441C4 time/date Sun Mar  1 14:40:20 2026
+         uid
+         gid
+  100666 mode
+     224 size
+correct header end
+
+Archive member name at 3D2C: gettim.obj/     
+69A441C4 time/date Sun Mar  1 14:40:20 2026
+         uid
+         gid
+  100666 mode
+     6C2 size
+correct header end
+
+Archive member name at 442A: getdat.obj/     
+69A441C4 time/date Sun Mar  1 14:40:20 2026
+         uid
+         gid
+  100666 mode
+     BB5 size
+correct header end
+
+Archive member name at 501C: enter.obj/      
+69A441C4 time/date Sun Mar  1 14:40:20 2026
+         uid
+         gid
+  100666 mode
+     502 size
+correct header end
+
+Archive member name at 555A: ddate.obj/      
+69A441C4 time/date Sun Mar  1 14:40:20 2026
+         uid
+         gid
+  100666 mode
+     583 size
+correct header end
+
+Archive member name at 5B1A: clear.obj/      
+69A441C3 time/date Sun Mar  1 14:40:19 2026
+         uid
+         gid
+  100666 mode
+     3D5 size
+correct header end
+
+Archive member name at 5F2C: chlaen.obj/     
+69A441C3 time/date Sun Mar  1 14:40:19 2026
+         uid
+         gid
+  100666 mode
+     2B2 size
+correct header end
+
+  Summary
+
+         1C8 .bss
+         13C .data
+         CDE .drectve
+          A8 .pdata
+          C9 .rdata
+        15BB .text
+          BC .xdata

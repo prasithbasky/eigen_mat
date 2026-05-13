@@ -1,0 +1,2 @@
+*.fem filter=lfs diff=lfs merge=lfs -text
+*.h3d filter=lfs diff=lfs merge=lfs -text
