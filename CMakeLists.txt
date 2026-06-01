@@ -34,6 +34,7 @@ add_subdirectory(help)
 add_subdirectory(matrix/engeln-reutter)
 add_subdirectory(matrix/blas)
 add_subdirectory(matrix/lapack)
+add_subdirectory(matrix/arpack)
 
 # Add test directory for executables
 add_subdirectory(test)

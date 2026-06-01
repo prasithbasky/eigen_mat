@@ -131,7 +131,8 @@
       WRITE (*,*) '    a) Program mistst      one eigenvalue/vector   '
       WRITE (*,*) '    b) Program eigtst      all eigenvalues/vectors '
       WRITE (*,*) '    c) Program realeig_2   LAPACK DGEEV '
-      WRITE (*,*) '    d) Program realeig_3   ARPACK DSAUPD for sparse '
+      WRITE (*,*) '    d) Program realeig_3   ARPACK DNAUPD nonsymmetric'
+      WRITE (*,*) '    e) Program realeig_4   ARPACK DSAUPD symmetric   '
       WRITE (*,*) ' '
       WRITE (*,*) '    s) Program STOP '
 	  WRITE (*,*) ' '
@@ -169,6 +170,8 @@
          GOTO  1003
       ELSEIF ( CHSELECT(1:1) .EQ.'D' .OR. CHSELECT(1:1) .EQ. 'd' ) THEN
          GOTO  1004
+      ELSEIF ( CHSELECT(1:1) .EQ.'E' .OR. CHSELECT(1:1) .EQ. 'e' ) THEN
+         GOTO  1005
 !
       ELSEIF ( CHSELECT(1:1) .EQ.'S' .OR. CHSELECT(1:1) .EQ. 's' ) THEN
          GOTO 9999
@@ -209,14 +212,18 @@
 !
  1004 CONTINUE
 !
-      WRITE (*,*) ' '
-      WRITE (*,*) ' Method not implemented at the moment! '
-	  WRITE (*,*) ' Please select suitable methods a - c! '
-      WRITE (*,*) ' '
-      CALL HEENTER
-         GOTO 1000
+      CALL REALEIG_3 ( CHSELECT, IERRIN )
 !
-! 
+      GOTO 1000
+!
+! *** Selection of method e)
+!
+ 1005 CONTINUE
+!
+      CALL REALEIG_4 ( CHSELECT, IERRIN )
+!
+      GOTO 1000
+!
 !
 !     Format Instructions
 !
