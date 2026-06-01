@@ -1,43 +1,41 @@
 !
-! REALEI_3  TEST Routine for the ARPACK Subroutines DNAUPD          2026/05/26
-!                                              DNEUPD
+! REALEIG_4  TEST Routine for the ARPACK Subroutines DSAUPD          2026/05/26
+!                                              DSEUPD
 !
 !                                              (Axel Hänschke)
 !........1.........2.........3.........4.........5.........6.........7.........8.........9........10
 !*****************************************************************************
 !                                                                            *
 !     Test (Main) Program for the ARPACK Subroutines                         *
-!                                              DNAUPD                        *
-!                                              DNEUPD                        *
+!                                              DSAUPD                        *
+!                                              DSEUPD                        *
 !                                                                            *
-!     The routine calculates eigenvalues and eigenvectors of a general        *
-!     real non-symmetric matrix using the Implicitly Restarted Arnoldi        *
-!     Method (IRAM) from ARPACK.                                             *
-!                                                                            *
-!     MIT DEN VORGEGEBENEN DATEN ERHALTEN SIE AUF dem Laptop HP PROBOOK      *
-!     FOLGENDES TESTERGEBNIS:                                                *
+!     The routine calculates eigenvalues and eigenvectors of a               *
+!     real symmetric matrix using the Implicitly Restarted Lanczos           *
+!     Method (IRLM) from ARPACK.  This is the standard method for           *
+!     large sparse symmetric eigenvalue problems in FEA.                     *
 !                                                                            *
 !     TESTBEISPIEL:                                                          *
 !     =============                                                          *
-!     ZU BERECHNENDE MATRIX:                                                 *
+!     ZU BERECHNENDE MATRIX (symmetrische Tridiagonalmatrix):                *
 !                                                                            *
-!       -.2000D+01    .2000D+01    .2000D+01    .2000D+01                    *
-!       -.3000D+01    .3000D+01    .2000D+01    .2000D+01                    *
-!       -.2000D+01    .0000D+00    .4000D+01    .2000D+01                    *
-!       -.1000D+01    .0000D+00    .0000D+00    .5000D+01                    *
+!        .2000D+01   -.1000D+01    .0000D+00    .0000D+00                   *
+!       -.1000D+01    .2000D+01   -.1000D+01    .0000D+00                   *
+!        .0000D+00   -.1000D+01    .2000D+01   -.1000D+01                   *
+!        .0000D+00    .0000D+00   -.1000D+01    .2000D+01                   *
 !                                                                            *
-!     -BERECHNETE EIGENWERTE (NEV=2 groesste):  REALTEIL  I  IMAGINAERTEIL   *
-!                             -------------------------------                *
-!                                 .40000D+01 I     .00000D+00                *
-!                                 .30000D+01 I     .00000D+00                *
+!     -BERECHNETE EIGENWERTE (NEV=2 groesste):  REALTEIL                    *
+!                             ----------------                               *
+!                                 .36180D+01                                 *
+!                                 .26180D+01                                 *
 !                                                                            *
-!     WEITERE TESTLAEUFE SIND DURCH MODIFIZIERUNG DER WERTE IN DEN           *
-!     DATA-ANWEISUNGEN JEDERZEIT MOEGLICH.                                   *
-!                                                                            *
+!     Analytische Eigenwerte:                                                *
+!       lambda_k = 2 - 2*cos(k*pi/5),  k=1..4                               *
+!       ~= 0.3820,  1.3820,  2.6180,  3.6180                                *
 !                                                                            *
 !*****************************************************************************
 !
-      SUBROUTINE REALEIG_3 ( CHSELECT, IERRIN )
+      SUBROUTINE REALEIG_4 ( CHSELECT, IERRIN )
 !
 !........1.........2.........3.........4.........5.........6.........7.........8.........9........10
 !
@@ -81,7 +79,7 @@
 !
       CHARACTER                        OPCODE*1
 !
-! *** ARPACK parameters
+! *** ARPACK parameters (symmetric)
 !
       INTEGER                          NEV
       INTEGER                          NCV
@@ -90,27 +88,21 @@
       INTEGER                          IDO
       INTEGER                          INFO
       INTEGER                          IPARAM(11)
-      INTEGER                          IPNTR(14)
+      INTEGER                          IPNTR(11)
       PARAMETER                        (NEV    = 2)
       PARAMETER                        (NCV    = N)
       PARAMETER                        (LDV    = N)
-      PARAMETER                        (LWORKL = 3*NCV*NCV + 6*NCV)
+      PARAMETER                        (LWORKL = NCV*NCV + 8*NCV)
       LOGICAL                          RVEC
       LOGICAL                          SELECT(NCV)
       DOUBLE PRECISION                 TOL
-      DOUBLE PRECISION                 SIGMAR
-      DOUBLE PRECISION                 SIGMAI
+      DOUBLE PRECISION                 SIGMA
       DOUBLE PRECISION                 RESID(N)
       DOUBLE PRECISION                 V(LDV, NCV)
       DOUBLE PRECISION                 WORKD(3*N)
       DOUBLE PRECISION                 WORKL(LWORKL)
-      DOUBLE PRECISION                 DR(NEV+1)
-      DOUBLE PRECISION                 DI(NEV+1)
-      DOUBLE PRECISION                 Z(N, NEV+1)
-      DOUBLE PRECISION                 WORKEV(3*NCV)
-      CHARACTER                        BMAT*1
-      CHARACTER                        WHICH*2
-      CHARACTER                        HOWMNY*1
+      DOUBLE PRECISION                 D(NEV)
+      DOUBLE PRECISION                 Z(N, NEV)
 !
 !........1.........2.........3.........4.........5.........6.........7.........8.........9........10
 !
@@ -128,13 +120,13 @@
       ENDIF
 !
 !
-! *** Info aus Matrix-Datei lesen
+! *** Info aus Matrix-Datei lesen (test_sym.dat)
 !
       CALL HINFOMAT ( IUNIT, ILINES, ICOLUM, OPCODE, IERR )
 !
-! *** Einlesen des Testbeispiels aus 'test.dat' im Real Format
+! *** Einlesen des Testbeispiels aus 'test_sym.dat'
 !
-      CALL HREADMAT ( OPCODE, 'test.dat', IUNIT,
+      CALL HREADMAT ( OPCODE, 'test_sym.dat', IUNIT,
      +                IMAT, RMAT, DMAT, IDIML,
      +                IDIMC, ILINES, ICOLUM, IERR )
 !
@@ -147,26 +139,26 @@
       WRITE (*,*) ' '
       WRITE (*,*) '---------------------------------------------------'
       WRITE (*,*) ' '
-      WRITE (*,*) ' Program: REALEIG_3'
+      WRITE (*,*) ' Program: REALEIG_4'
       WRITE (*,*) ' =================='
       WRITE (*,*) '    '
-      WRITE (*,*) ' ARPACK DNAUPD/DNEUPD: Implicitly Restarted Arnoldi'
-      WRITE (*,*) ' Method (IRAM) for general real non-symmetric matrix.'
+      WRITE (*,*) ' ARPACK DSAUPD/DSEUPD: Implicitly Restarted Lanczos'
+      WRITE (*,*) ' Method (IRLM) for real symmetric matrix.'
       WRITE (*,*) ' '
-      WRITE (*,*) ' Computes NEV = 2 eigenvalues of largest magnitude'
-      WRITE (*,*) ' (WHICH = LM) and corresponding eigenvectors.'
+      WRITE (*,*) ' Computes NEV = 2 eigenvalues of largest algebraic'
+      WRITE (*,*) ' value (WHICH = LA) and corresponding eigenvectors.'
       WRITE (*,*) ' '
-      WRITE (*,*) ' Mode 1: A*x = lambda*x  (standard eigenvalue)'
+      WRITE (*,*) ' Mode 1: A*x = lambda*x  (standard symmetric)'
       WRITE (*,*) ' '
       WRITE (*,*) ' Source: ARPACK-NG 3.9.1'
       WRITE (*,*) '         https://github.com/opencollab/arpack-ng'
       WRITE (*,*) ' '
-      WRITE (*,*) ' Suitable for large sparse matrices - standard FEA.'
+      WRITE (*,*) ' Test matrix: 4x4 symmetric tridiagonal (FEA-like)'
+      WRITE (*,*) '   Analytical eigenvalues ~= 0.382, 1.382, 2.618,'
+      WRITE (*,*) '   3.618  (lambda_k = 2 - 2*cos(k*pi/5))'
       WRITE (*,*) ' '
       WRITE (*,*) ' Achtung: Eingabematrix nur im Double Precision '
       WRITE (*,*) '          Format zulaessig!'
-      WRITE (*,*) '          Eingabe im standard REAL Format folgt'
-      WRITE (*,*) '          Programm Abbruch!!! '
       WRITE (*,*) ' '
       WRITE (*,*) '---------------------------------------------------'
       WRITE (*,*) ' '
@@ -179,38 +171,12 @@
       WRITE (*, 321)
 !
   321 FORMAT ( /
-     +,/,         '    Testdaten werden von der Datei test.dat '
+     +,/,         '    Testdaten werden von der Datei test_sym.dat '
      +,/,         '    eingelesen ! ',  ///           )
 !
-! *** Real Input Format
+! *** Only Double Precision allowed
 !
       If ( OPCODE .EQ. 'F' ) THEN
-      write (*,*) ' '
-      write (*,*) ' Input Daten sind im Real Format '
-      write (*,*) ' ------------------------------- '
-      write (*,*) ' '
-      call heenter
-      ELSE IF ( OPCODE .EQ. 'Y' ) THEN
-!
-! *** Double Precision Input Format
-!
-      write (*,*) ' '
-      write (*,*) ' Input Daten sind im Double Precision Format '
-      write (*,*) ' ------------------------------------------- '
-      write (*,*) ' '
-      call heenter
-      ENDIF
-!
-      write (*,*) ' '
-      write (*,*) ' IERR   = ', IERR
-      write (*,*) ' IUNIT  = ', IUNIT
-      write (*,*) ' ILINES = ', ILINES
-      write (*,*) ' ICOLUM = ', ICOLUM
-!
-! *** Real Matrix not allowed
-!
-      If ( OPCODE .EQ. 'F' ) THEN
-!
       write (*,*) ' '
       write (*,*) ' Real-Format nicht zulaessig! '
       write (*,*) ' Programm Abbruch '
@@ -220,28 +186,32 @@
 ! *** Double Precision Matrix DMAT output
 !
       ELSE IF ( OPCODE .EQ. 'Y' ) THEN
+         write (*,*) ' '
+         write (*,*) ' Input Daten sind im Double Precision Format '
+         write (*,*) ' ------------------------------------------- '
+         write (*,*) ' '
+         call heenter
+         write (*,*) ' IERR   = ', IERR
+         write (*,*) ' IUNIT  = ', IUNIT
+         write (*,*) ' ILINES = ', ILINES
+         write (*,*) ' ICOLUM = ', ICOLUM
          WRITE(*,2001)
             DO 11 I=1,ILINES
    11          WRITE(*,2011)(DMAT(I,J),J=1,ICOLUM)
+         call heenter
       ENDIF
-!
-      call heenter
 !
 !........1.........2.........3.........4.........5.........6.........7.........8.........9........10
 !
-! *** ARPACK DNAUPD/DNEUPD - Implicitly Restarted Arnoldi Method
+! *** ARPACK DSAUPD/DSEUPD - Implicitly Restarted Lanczos Method
 !
 ! *** Initialisierung
 !
-      BMAT   = 'I'
-      WHICH  = 'LM'
-      TOL    = 0.0D0
       IDO    = 0
       INFO   = 0
+      TOL    = 0.0D0
+      SIGMA  = 0.0D0
       RVEC   = .TRUE.
-      HOWMNY = 'A'
-      SIGMAR = 0.0D0
-      SIGMAI = 0.0D0
 !
       IPARAM(1)  = 1
       IPARAM(2)  = 0
@@ -258,7 +228,7 @@
 ! *** Reverse Communication Interface (RCI) Loop
 !
    90 CONTINUE
-      CALL DNAUPD ( IDO, BMAT, N, WHICH, NEV, TOL, RESID,
+      CALL DSAUPD ( IDO, 'I', N, 'LA', NEV, TOL, RESID,
      &              NCV, V, LDV, IPARAM, IPNTR, WORKD,
      &              WORKL, LWORKL, INFO )
 !
@@ -273,27 +243,27 @@
 !
       END IF
 !
-! *** Check for DNAUPD errors
+! *** Check for DSAUPD errors
 !
-      WRITE(*,*) ' DNAUPD: INFO = ', INFO
-      WRITE(*,*) ' DNAUPD: IPARAM(5) converged Ritz values = ',
+      WRITE(*,*) ' DSAUPD: INFO = ', INFO
+      WRITE(*,*) ' DSAUPD: IPARAM(5) converged Ritz values = ',
      &             IPARAM(5)
 !
       IF ( INFO .LT. 0 ) THEN
-         WRITE (*,*) ' DNAUPD error: INFO = ', INFO
+         WRITE (*,*) ' DSAUPD error: INFO = ', INFO
          GOTO 9999
       END IF
 !
-! *** Post-process with DNEUPD to extract eigenpairs
+! *** Post-process with DSEUPD to extract eigenpairs
 !
-      CALL DNEUPD ( RVEC, HOWMNY, SELECT, DR, DI, Z, N,
-     &              SIGMAR, SIGMAI, WORKEV, BMAT, N, WHICH,
-     &              NEV, TOL, RESID, NCV, V, LDV,
-     &              IPARAM, IPNTR, WORKD, WORKL, LWORKL, IERR )
+      CALL DSEUPD ( RVEC, 'All', SELECT, D, Z, N, SIGMA,
+     &              'I', N, 'LA', NEV, TOL, RESID, NCV,
+     &              V, LDV, IPARAM, IPNTR, WORKD,
+     &              WORKL, LWORKL, IERR )
 !
 !     AUSGABE DER LOESUNG
 !
-      WRITE(*,*) ' DNEUPD: IERR = ', IERR
+      WRITE(*,*) ' DSEUPD: IERR = ', IERR
       WRITE(*,*) ' '
 !
       IF ( IERR .EQ. 0 ) THEN
@@ -305,7 +275,7 @@
       WRITE (*,*) ' ==========='
       WRITE (*,*) ' '
          WRITE(*,2020)
-         WRITE(*,2030)(DR(I),DI(I),I=1,NEV)
+         WRITE(*,2030)(D(I),I=1,NEV)
 !
          call heenter
       ENDIF
@@ -329,12 +299,12 @@
 !........1.........2.........3.........4.........5.........6.........7.........8.........9........10
 
  2001 FORMAT(14H TESTBEISPIEL:,/,24(1H=),/,
-     &       1X,'ZU BERECHNENDE MATRIX DMAT:',/)
+     &       1X,'ZU BERECHNENDE MATRIX DMAT (symmetrisch):',/)
  2011 FORMAT(10(1X,D12.4))
 !
- 2020 FORMAT(/,1X,'-BERECHNETE EIGENWERTE:    REALTEIL    I  ',
-     +        'IMAGINAERTEIL',/,25X,31(1H-))
- 2030 FORMAT(24X,D15.5,' I',D15.5)
+ 2020 FORMAT(/,1X,'-BERECHNETE EIGENWERTE (groesste algebraische):',
+     +        /,16X,16(1H-))
+ 2030 FORMAT(16X,D15.5)
 !
  2040 FORMAT(/,1X,'-MATRIX DER NORMALISIERTEN EIGENVEKTOREN: - Z -',/)
  2041 FORMAT(10(1X,D12.4))
@@ -357,11 +327,11 @@
  9998 CONTINUE
  9999 CONTINUE
 !
-      CALL HEINOU ( 'realeig_3 Hauptprogramm', 'AUS', IERR )
+      CALL HEINOU ( 'realeig_4 Hauptprogramm', 'AUS', IERR )
 !
       CALL HEENTER
 !
-! *** Ende von realeig_3
+! *** Ende von realeig_4
 !
       STOP
 !
