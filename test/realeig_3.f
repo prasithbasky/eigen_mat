@@ -363,6 +363,6 @@
 !
 ! *** Ende von realeig_3
 !
-      STOP
+      RETURN
 !
       END
