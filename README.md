@@ -15,7 +15,7 @@ The project is a first step towards contributing an implicit solver to OpenRadio
 | `d` | `realeig_3` | DNAUPD/DNEUPD — Implicitly Restarted Arnoldi (IRAM) | ARPACK-NG 3.9.1 | General non-symmetric | Few eigenvalues, large sparse non-symmetric |
 | `e` | `realeig_4` | DSAUPD/DSEUPD — Implicitly Restarted Lanczos (IRLM) | ARPACK-NG 3.9.1 | Symmetric | Few eigenvalues, large sparse symmetric (FEA) |
 
-### Test Results
+### Test Results :
 
 **Methods a–d** use the same 4×4 non-symmetric test matrix (from `test.dat`):
 ```
