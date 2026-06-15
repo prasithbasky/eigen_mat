@@ -497,6 +497,8 @@
 !
  9999 CONTINUE
 !
+            REWIND ( UNIT = iutest )
+			CLOSE  ( UNIT = iutest )
 !
       CALL HEINOU ( 'HREADMAT', 'AUS', IERR1 )
 !
