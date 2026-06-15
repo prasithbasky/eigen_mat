@@ -166,7 +166,7 @@ C *** DOS-Befehl absetzen
 C
   200 CONTINUE
       IF ( CHCLEAR1 .EQ. 'J' ) THEN
-         CALL SYSTEM ( 'clear' )
+         CALL SYSTEM ( 'CLS' )
          GOTO 9999
 	  ELSE IF (CHCLEAR1 .EQ. 'N' ) THEN
          IERR = 0

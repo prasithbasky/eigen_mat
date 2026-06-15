@@ -1,7 +1,8 @@
 !
 !*****7**1*********2*********3*********4*********5*********6*********7**
 !
-      SUBROUTINE HINFOMAT ( IUNIT, ILINES, ICOLUM, OPCODE, IERR )
+      SUBROUTINE HINFOMAT ( IUNIT, CHFILE, ILINES, ICOLUM, OPCODE, 
+     +                      IERR )
 !
 !
 !
@@ -24,6 +25,8 @@
 !
 !
 !     - IUNIT      Kanalnummer der Datei von der gelesen werden soll.
+!     - CHFILE     Eingabedatei
+!
 !
 !G*   AUSGABE:
 !     -------
@@ -185,6 +188,7 @@
       CHARACTER    CHTYP*1
       CHARACTER    CHDOT*1
 	  CHARACTER    CHCOMM*1
+	  CHARACTER    CHFILE*(*)
 !
 ! ----------------------------------------------------------------------
 !
@@ -259,7 +263,8 @@
 !     -------------------------------------------------------------
 !
       IF ( ILINES .GT. 1 ) GOTO 77
-         CALL HEOPEN ( 'K', 'N', 'test.dat' , iutest, ierr )
+         CALL HEOPEN ( 'K', 'N', CHFILE, iutest, ierr )
+!		 rewind ( UNIT = iutest )
    77 CONTINUE
 !
       IUNIT = iutest
@@ -282,6 +287,7 @@
 			ILINES = ILINES - 1
             REWIND ( UNIT = iutest )
 			CLOSE  ( UNIT = iutest )
+			IERR  = 0
          GOTO 9999
       ENDIF
 !
@@ -339,6 +345,11 @@
 !     ----------------------------------------------------------------
 !
       CALL HECHTYP ( TSTRING, CHTYP, IERR )
+!
+!      write (*,*) ' TSTRING   = ', TSTRING
+!	  write (*,*) ' CHTYP     = ', CHTYP
+!	  write (*,*) ' IERR      = ', IERR
+!	  call heenter
 !
 ! ... Laufvariable über Anzahl der Teilstrings IOUT
 !
@@ -454,7 +465,7 @@
       CALL HEINOU ( 'HINFOMAT', 'AUS', IERR1 )
 !
 !	  
-! *** Ende der Subroutine HREADMAT
+! *** Ende der Subroutine HINFOMAT
 !
       RETURN
 !
