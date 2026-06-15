@@ -77,8 +77,10 @@ CP*   VERSION:     0.1                                     08-AUG-94
 C     -------
 C
 C
-CQ*   UPDATE:      Name des Bearbeiters                    Datum
-C     -------      Beschreibung der Aenderungen
+CQ*   UPDATE:      Axel Hänschke                           05-Jun-2026
+C     -------      Achtung: Routine compilieren mit:
+C                  ifx -extend-source:80 datei.f
+C                  Textausgabe hat Überlänge!
 C
 C
 C ----------------------------------------------------------------------
@@ -134,7 +136,8 @@ C ======================================================================
 CAT*  A U S G A B E T E I L
 C ======================================================================
 C
-      WRITE ( IUNIT, 5000 )
+      WRITE ( IUNIT, 5000 )      
+C	  WRITE ( IUNIT, 5001 )
 C
       CALL HECLOSE ( IUNIT, IERR )
 C
@@ -151,185 +154,114 @@ C ======================================================================
 CFA*  F O R M A T  - A N W E I S U N G E N
 C ======================================================================
 C
- 5000 FORMAT ( 'C', /
-     + , 'C'
-     +,/,'C ************************************************************
-     +***'
-     +,/,'C
-     +  *'
-     +,/,'C     Datei HEINIT.DAT
-     +  *'
-     +,/,'C     ================
-     +  *'
-     +,/,'C
-     +  *'
-     +,/,'C     Datei fuer die Belegung des COMMON-Bereiches STEUER
-     +  *'
-     +,/,'C     fuer die Unterprogrammsammlung HE.... zur Unterstuetzung
-     +  *'
-     +,/,'C     der FORTRAN-Programmentwicklung.
-     +  *'
-     +,/,'C
-     +  *'
-     +,/,'C     Hinweis:
-     +  *'
-     +,/,'C     Die Datei wird durch die Initialisierungsroutine
-     +  *'
-     +,/,'C     im aktuellen Verzeichnis, in dem das Programm aufgerufen
-     +  *'
-     +,/,'C     wird, erstellt. Falls die Datei schon existiert, wird si
-     +e *'
-     +,/,'C     ausgelesen und dem COMMON /STEUER/ die Werte zugewiesen.
-     +  *'
-     +,/,'C
-     +  *'
-     +,/,'C     Weiterhin existiert der COMMON /CHAR/ mit den Werten
-     +  *'
-     +,/,'C     zur Steuerung der Routinen ENTER und CLEAR sowie dem
-     +  *'
-     +,/,'C     COMMON /USER/ der mit User-defined Werten zur Ablauf-
-     +  *'
-     +,/,'C     steuerung versehen werden kann.
-     +  *'
-     +,/,'C
-     +  *'
-     +,/,'C
-     +  *'
-     +,/,'C     Die Datei enthaelt z.Zt. folgende Groessen, die bei
-     +  *'
-     +,/,'C     Erweiterung auch im COMMON /STEUER/ eingefuegt werden
-     +  *'
-     +,/,'C     muessen.
-     +  *'
-     +,/,'C
-     +  *'
-     +,/,'C     KTW     ist der Terminal Schreibkanal, default =  6
-     +  *'
-     +,/,'C     KTR     ist der Terminal Lesekanal,    default =  5
-     +  *'
-     +,/,'C     IAUS    ist die Ausgabekennung,        default =  1
-     +  *'
-     +,/,'C             d.h. Ausgabe auf Bildschirm,
-     +  *'
-     +,/,'C             Weitere Moeglichkeit ist               =  0
-     +  *'
-     +,/,'C             abschalten der Ausgabe auf dem Bildschirm
-     +  *'
-     +,/,'C             Alle anderen Werte weden nicht unterstuetzt und
-     +  *'
-     +,/,'C             fuehren zu fehlern.
-     +  *'
-     +,/,'C
-     +  *'
-     +,/,'C     Werte fuer den COMMON /STEUER/
-     +  *'
-     +,/,'C
-     +  *'
-     +,/,'C
-     +  *'
-     +,/,'C     INTEGER    INTEGER   INTEGER
-     +  *'
-     +,/,'C     KTW        KTR       IAUS
-     +  *'
-     +,/,'C      6           5        1
-     +  *'
-     +,/,'C
-     +  *'
-     +,/,'C      Werte fuer den COMMON /CHAR/
-     +  *'
-     +,/,'C
-     +  *'
-     +,/,'C     CHARACTER      CHARACTER      CHARACTER    CHARACTER
-     +  *'
-     +,/,'C      CHCLEAR        CHENTER         CHSYS       CHEDIT
-     +  *'
-     +,/,'C        J               J              D          E
-     +  *'
-     +,/,'C
-     +  *'
-     +,/,'C      Werte fuer den COMMON /USER/
-     +  *'
-     +,/,'C      (ist frei zu definieren)
-     +  *'
-     +,/,'C
-     +  *'
-     +,/,'C ************************************************************
-     +***'
-     +,/,'C '
-     +,/,'C '
-     +,/,'C     KTW        KTR        IAUS '
-     +,/,'C '
-     +,/,'        6          5          1  '
-     +,/,'C '
-     +,/,'C '
-     +,/,'C '
-     +,/,'C     CHCLEAR    CHENTER      CHSYS       CHEDIT '
-     +,/,'C '
-     +,/,'        J          J            D           E '
-     +,/,'C '
-     +,/,'C '
-     +,/,'C '
-     +,/,'C     frei waehlbare Werte fuer den COMMON /USER/ '
-     +,/,'C '
-     +,/,'C '
-     +,/,'C '
-     +,/,'C '
-     +,/,'C     Ende der Datei HEINIT.DAT  '
-     +,/,'C '
-     +,/,'C ************************************************************
-     +***'
-     +,/,'C '
-     + )
+C*****7**1*********2*********3*********4*********5*********6*********7**
+ 5000 FORMAT ( /,
+     +  'C',/,
+     +  'C ****************************************************************',/,
+     +  'C                                                                *',/,
+     +  'C      Datei HEINIT.DAT                                          *',/,
+     +  'C      ================                                          *',/,
+     +  'C                                                                *',/,
+     +  'C      Datei fuer die Belegung des COMMON-Bereiches STEUER       *',/,
+     +  'C      fuer die Unterprogrammsammlung HE.... zur Unterstuetzung  *',/,
+     +  'C      der FORTRAN-Programmentwicklung.                          *',/,
+     +  'C                                                                *',/,
+     +  'C      Hinweis:                                                  *',/,
+     +  'C      --------                                                  *',/,
+     +  'C      Die Datei wird durch die Initialisierungsroutine          *',/,
+     +  'C      im aktuellen Verzeichnis, in dem das Programm aufgerufen  *',/,
+     +  'C      wird, erstellt. Falls die Datei schon existiert, wird sie *',/,
+     +  'C      ausgelesen und dem COMMON /STEUER/ die Werte zugewiesen.  *',/,
+     +  'C                                                                *',/,
+     +  'C      Weiterhin existiert der COMMON /CHAR/ mit den Werten      *',/,
+     +  'C      zur Steuerung der Routinen ENTER und CLEAR sowie dem      *',/,
+     +  'C      COMMON /USER/ der mit User-defined Werten zur Ablauf-     *',/,
+     +  'C      steuerung versehen werden kann.                           *',/,
+     +  'C                                                                *',/,
+     +  'C                                                                *',/,
+     +  'C      Die Datei enthaelt z.Zt. folgende Groessen, die bei       *',/,
+     +  'C      Erweiterung auch im COMMON /STEUER/ eingefuegt werden     *',/,
+     +  'C      muessen.                                                  *',/,
+     +  'C                                                                *',/,
+     +  'C      KTW     ist der Terminal Schreibkanal, default =  6       *',/,
+     +  'C      KTR     ist der Terminal Lesekanal,    default =  5       *',/,
+     +  'C      IAUS    ist die Ausgabekennung,        default =  1       *',/,
+     +  'C              d.h. Ausgabe auf Bildschirm,                      *',/,
+     +  'C              Weitere Moeglichkeit ist               =  0       *',/,
+     +  'C              abschalten der Ausgabe auf dem Bildschirm         *',/,
+     +  'C              Alle anderen Werte weden nicht unterstuetzt und   *',/,
+     +  'C              fuehren zu fehlern.                               *',/,
+     +  'C                                                                *',/,
+     +  'C      Werte fuer den COMMON /STEUER/                            *',/,
+     +  'C                                                                *',/,
+     +  'C      INTEGER    INTEGER   INTEGER                              *',/,
+     +  'C      KTW        KTR       IAUS                                 *',/,
+     +  'C       6           5        1                                   *',/,
+     +  'C                                                                *',/,
+     +  'C      Werte fuer den COMMON /CHAR/                              *',/,
+     +  'C                                                                *',/,
+     +  'C      CHARACTER      CHARACTER      CHARACTER    CHARACTER      *',/,
+     +  'C      CHCLEAR        CHENTER         CHSYS       CHEDIT         *',/,
+     +  'C       J               J              D           E             *',/,
+     +  'C                                                                *',/,
+     +  'C      Werte fuer den COMMON /USER/                              *',/,
+     +  'C      (ist frei zu definieren)                                  *',/,
+     +  'C                                                                *',/,
+     +  'C*****************************************************************',/,
+     +  'C                                                                 ',/,
+     +  'C                                                                 ',/,
+     +  'C      KTW        KTR        IAUS                                 ',/,
+     +  'C                                                                 ',/,
+     +  '        6          5          1                                   ',/,
+     +  'C                                                                 ',/,
+     +  'C                                                                 ',/,
+     +  'C                                                                 ',/,
+     +  'C      CHCLEAR    CHENTER      CHSYS       CHEDIT                 ',/,
+     +  'C                                                                 ',/,
+     +  '        J          J            D           E                     ',/,
+     +  'C                                                                 ',/,
+     +  'C                                                                 ',/,
+     +  'C                                                                 ',/,
+     +  'C      frei waehlbare Werte fuer den COMMON /USER/                ',/,
+     +  'C                                                                 ',/,
+     +  'C                                                                 ',/,
+     +  'C                                                                 ',/,
+     +  'C      Axel Haenschke                                             ',/,
+     +  'C      Bruehl, 05. June 2026                                      ',/,
+     +  'C                                                                 ',/,
+     +  'C      Ende der Datei HEINIT.DAT                                  ',/,
+     +  'C                                                                 ',/,
+     +  'C*****************************************************************',/,
+     +  'C                                                                 ' )
 C
 C
 C ======================================================================
 C
  6000 FORMAT ( ' ', //
-     +,/,'   ***********************************************************
-     +**'
-     +,/,'   *
-     + *'
-     +,/,'   *
-     + *'
-     +,/,'   *             F O R T R A N - Help Umgebung
-     + *'
-     +,/,'   *             =============================
-     + *'
-     +,/,'   *
-     + *'
-     +,/,'   *
-     + *'
-     +,/,'   *  Die FORTRAN Help Umgebung ist erfolgreich initialisiert
-     + *'
-     +,/,'   *  worden. Die Initialisierungsdatei HEINIT.DAT ist auf
-     + *'
-     +,/,'   *  dem aktuellen Verzeichnis angelegt worden. Es gelten
-     + *'
-     +,/,'   *  die Grundeinstellungen, die im Anschluss an diese Mel-
-     + *'
-     +,/,'   *  dung durch editieren geaendert werden kann.
-     + *'
-     +,/,'   *  (Nach Aenderung das Programm neu starten!)
-     + *'
-     +,/,'   *
-     + *'
-     +,/,'   *
-     + *'
-     +,/,'   *                            Axel Haenschke
-     + *'
-     +,/,'   *                            (08.03.2023)
-     + *'
-     +,/,'   *
-     + *'
-     +,/,'   *
-     + *'
-     +,/,'   *
-     + *'
-     +,/,'   ***********************************************************
-     +**'
-     +,/,' '
-     +,/,' '
-     + )
+     + ' ******************************************************************',/,
+     + ' *                                                                *',/,
+     + ' *                                                                *',/,
+     + ' *             F O R T R A N - Help Umgebung                      *',/,
+     + ' *             =============================                      *',/,
+     + ' *                                                                *',/,
+     + ' *                                                                *',/,
+     + ' *  Die FORTRAN Help Umgebung ist erfolgreich initialisiert       *',/,
+     + ' *  worden. Die Initialisierungsdatei HEINIT.DAT ist auf          *',/,
+     + ' *  dem aktuellen Verzeichnis angelegt worden. Es gelten          *',/,
+     + ' *  die Grundeinstellungen, die im Anschluss an diese Meldung     *',/,
+     + ' *  durch editieren geaendert werden kann.                        *',/,
+     + ' *  (Nach Aenderung das Programm neu starten!)                    *',/,
+     + ' *                                                                *',/,
+     + ' *                                                                *',/,
+     + ' *                            Axel Haenschke                      *',/,
+     + ' *                            (06.06.2026)                        *',/,
+     + ' *                                                                *',/,
+     + ' *                                                                *',/,
+     + ' *                                                                *',/,
+     + ' *                                                                *',/,
+     + ' ******************************************************************',/,
+     + '                                                                   ',/,
+     + '                                                                   ' )
 C
 C ======================================================================
 C

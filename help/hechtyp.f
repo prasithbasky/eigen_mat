@@ -138,6 +138,7 @@ C
 C ----------------------------------------------------------------------
 C
       INTEGER      IERR
+	  INTEGER      IERRT
       INTEGER      IBASE
       INTEGER      IRES
       INTEGER      IFIRST
@@ -167,6 +168,8 @@ C ======================================================================
 C
       IERR  = 0
       IBASE = 1
+	  IRES  = 0
+	  RWERT = 0.0
 C
 C ======================================================================
 CEV*  E I N G A B E V E R A R B E I T U N G
@@ -190,6 +193,9 @@ C
 C
 C *** Erkennen des Teilstrings
 C
+C      write (*,*) ' TSTRING = ', TSTRING
+C      write (*,*) ' IRES    = ', IRES
+C      call heenter	  
 C
       IF ( IRES .EQ. 1 ) THEN
 C
@@ -266,6 +272,7 @@ C
             CALL HETYPDBE ( TSTRING, CHREALD, IERR )
             IF ( CHREALD .EQ. 'D' ) THEN
 C ***       normale DOUBLE PRECISION Variable
+C 
                CHTYP = 'Y'
                IERR = 0
                GOTO 9999
