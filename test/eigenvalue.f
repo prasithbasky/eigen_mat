@@ -128,11 +128,11 @@
 	  WRITE (*,*) '  calculation method.  '
 	  WRITE (*,*) '    '
       WRITE (*,*) '  Please select:'
-      WRITE (*,*) '    a) Program mistst      one eigenvalue/vector   '
-      WRITE (*,*) '    b) Program eigtst      all eigenvalues/vectors '
-      WRITE (*,*) '    c) Program realeig_2   LAPACK DGEEV '
-      WRITE (*,*) '    d) Program realeig_3   ARPACK DNAUPD nonsymmetric'
-      WRITE (*,*) '    e) Program realeig_4   ARPACK DSAUPD symmetric   '
+      WRITE (*,*) '   a) Program mistst      one eigenvalue/vector   '
+      WRITE (*,*) '   b) Program eigtst      all eigenvalues/vectors '
+      WRITE (*,*) '   c) Program realeig_2   LAPACK DGEEV '
+      WRITE (*,*) '   d) Program realeig_3   ARPACK DNAUPD nonsymmetric'
+      WRITE (*,*) '   e) Program realeig_4   ARPACK DSAUPD symmetric   '
       WRITE (*,*) ' '
       WRITE (*,*) '    s) Program STOP '
 	  WRITE (*,*) ' '
@@ -250,19 +250,14 @@
  2051 FORMAT(10(1X,D12.4))
 !
  5000 FORMAT ( ' ', //
-     +,/,'   ***********************************************************
-     +**'
-     +,/,'   *
-     + *'
-     +,/,'   *      Progranm Stop Neustart
-     + *'
-     +,/,'   *
-     + *'
-     +,/,'   *
-     + *'
-     +,/,'   ***********************************************************
-     +**', ///
-     + )
+     + ' ******************************************************************',/,
+     + ' *                                                                *',/,
+     + ' *      Progranm Stop Neustart                                    *',/,
+     + ' *                                                                *',/,
+     + ' *                                                                *',/,
+     + ' ******************************************************************',/,
+     + '                                                                   ',/,                            
+     + '                                                                   ' )
 !
  9998 CONTINUE 
 !      call heenter

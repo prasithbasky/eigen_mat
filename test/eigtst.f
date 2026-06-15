@@ -1,3 +1,4 @@
+
 !
 ! EIGTST  TESTPROGRAMM ZUM UNTERPROGRAMM EIGEN                        87/12/18
 !                                              (THOMAS MEUSER)
@@ -92,25 +93,50 @@
       CHARACTER                        OPCODE*1
 	  CHARACTER                        CHSELECT*1
 !
+! *** HELP Initialisierung 
+!
+      CALL HEINOU ( 'eigtst', 'EIN', IERR ) 
+!
 ! *** Basis der Gleitkommadarstellung (Basis = 2)
 !
       BASIS = 2
-!
-! *** HELP Initialisierung 
-! 
-      CALL HEDEF ( IERR )
-!
-! ... Initialisierung der Help-Umgebung
-!
-      CALL HEINIT ( IERR )
-      IF ( IERR .EQ. 1 ) THEN
-         WRITE (*, 5000)
-         GOTO 9998
-      ENDIF
+	  IERR  = 0
 !
 ! *** Info aus Matrix-Datei lesen
 !
-      CALL HINFOMAT ( IUNIT, ILINES, ICOLUM, OPCODE, IERR )
+      CALL HINFOMAT ( IUNIT, 'test.dat', ILINES, ICOLUM, OPCODE, IERR )
+!	  
+! *** Error check
+!
+      If ( IERR .NE. 0 ) THEN
+         write (*,*) ' '
+         write (*,*) ' Wrong Format in Matrix not allowed! '
+	     write (*,*) ' Input file in test.dat '
+		 write (*,*) ' '
+         write (*,*) ' Element at line and column = ', ILINES, ICOLUM
+	     write (*,*) ' has wrong format '
+         write (*,*) ' '		 
+         write (*,*) ' Program Stop '
+         write (*,*) ' '
+		    REWIND ( UNIT = IUNIT )
+      GOTO 9999
+	  ENDIF
+!
+! *** Only Double Precision allowed
+!
+      If ( OPCODE .NE. 'Y' ) THEN
+         write (*,*) ' '
+         write (*,*) ' Wrong Format in Matrix not allowed! '
+	     write (*,*) ' Input file in test.dat '
+		 write (*,*) ' '
+         write (*,*) ' Element at line and column = ', ILINES, ICOLUM
+	     write (*,*) ' has wrong format '
+         write (*,*) ' '		 
+         write (*,*) ' Program Stop '
+         write (*,*) ' '
+		    REWIND ( UNIT = IUNIT )
+      GOTO 9999
+	  ENDIF
 !
 ! *** Einlesen des Testbeispiels aus 'test.dat' im Real Format
 !
@@ -119,10 +145,30 @@
      +                IDIMC, ILINES, ICOLUM, IERR )
 !
 !
+! *** Testausgabe
+!
+      WRITE (*, 321)
+!
+  321 FORMAT ( /
+     +,/,         '    Testdaten werden von der Datei test.dat '
+     +,/,         '    eingelesen ! ',  ///           )
+!
+!
+! *** Double Precision Matrix DMAT output
+!
+         write (*,*) ' '
+         write (*,*) ' Input Daten sind im Double Precision Format '
+         write (*,*) ' ------------------------------------------- '
+         write (*,*) ' '
+!
+         WRITE(*,2001)
+            DO 11 I=1,ILINES
+   11          WRITE(*,2011)(DMAT(I,J),J=1,ICOLUM)
+         call heenter
 !
 ! *** Systembefehl absetzen
 !
-      CALL SYSTEM ( 'clear' )
+      CALL SYSTEM ( 'cls' )
 !
 	  WRITE (*,*) ' '
 	  WRITE (*,*) ' '
@@ -158,79 +204,10 @@
 !
       call heenter	  
 !
-! *** Testausgabe
-! 
-      WRITE (*, 321)
-!
-  321 FORMAT ( /
-     +,/,         '    Testdaten werden von der Datei test.dat '
-     +,/,         '    eingelesen ! ',  ///           )
-!
-! *** Real Input Format
-!
-      If ( OPCODE .EQ. 'F' ) THEN
-	  write (*,*) ' '
-	  write (*,*) ' Input Daten sind im Real Format '
-	  write (*,*) ' ------------------------------- '
-	  write (*,*) ' '
-      call heenter	
-      ELSE IF ( OPCODE .EQ. 'Y' ) THEN
-!
-! *** Double Precision Input Format
-!
-	  write (*,*) ' '
-	  write (*,*) ' Input Daten sind im Double Precision Format '
-	  write (*,*) ' ------------------------------------------- '
-	  write (*,*) ' '
-      call heenter
-      ENDIF	   
-!
-!     write (*,*) ' '
-!	  write (*,*) ' OPCODE = ', OPCODE
-      write (*,*) ' '  
-      write (*,*) ' IERR   = ', IERR 
-      write (*,*) ' IUNIT  = ', IUNIT
-      write (*,*) ' ILINES = ', ILINES	
-      write (*,*) ' ICOLUM = ', ICOLUM	  	  
-!
-!     AUSGABE DES TESTBEISPIELS
-!
-!
-!     Real Matrix RMAT
-!
-      If ( OPCODE .EQ. 'F' ) THEN
-!
-	  write (*,*) ' '
-	  write (*,*) ' Real-Format nicht zulaessig! '
-	  write (*,*) ' Programm Abbruch '
-	  write (*,*) ' '
-	  GOTO 9999
-!
-! *** Double Precision Matrix DMAT
-!
-      ELSE IF ( OPCODE .EQ. 'Y' ) THEN
-         WRITE(*,2001)
-            DO 11 I=1,ILINES
-   11          WRITE(*,2011)(DMAT(I,J),J=1,ICOLUM)
-      ENDIF
-!
-!
-!........1.........2.........3.........4.........5.........6.........7.|.......8
-!
-      If ( OPCODE .EQ. 'F' ) THEN
-!
-! *** Real Matrix
-!
-      RES = EIGEN (BASIS, ND, N, RMAT, SKAL, EIVEC, WERTR, WERTI,
-     +             CNT, LOW, HIGH)
-!
 ! *** Double Precision Matrix
 !
-      ELSE IF ( OPCODE .EQ. 'Y' ) THEN
       RES = EIGEN (BASIS, ND, N, DMAT, SKAL, EIVEC, WERTR, WERTI,
      +             CNT, LOW, HIGH)
-!
-      ENDIF
 !
 !
       IF (RES .GT. 0) THEN
@@ -290,28 +267,19 @@
  2020 FORMAT(24X,D15.5,' I',D15.5)
  2030 FORMAT(/,1X,'-MATRIX DER NORMALISIERTEN EIGENVEKTOREN:',/)
  2040 FORMAT(10(1X,D12.4))
- 5000 FORMAT ( ' ', //
-     +,/,'   ***********************************************************
-     +**'
-     +,/,'   *
-     + *'
-     +,/,'   *      Progranm Stop Neustart
-     + *'
-     +,/,'   *
-     + *'
-     +,/,'   *
-     + *'
-     +,/,'   ***********************************************************
-     +**', ///
-     + )
 !
  9998 CONTINUE 
-      call heenter
+!
+! *** Rewind and close input file
+!
+            REWIND ( UNIT = IUNIT )
+			CLOSE  ( UNIT = IUNIT )
+!
  9999 CONTINUE
 !
-      CALL HEINOU ( 'eigtst Hauptprogramm', 'AUS', IERR )
+      CALL HEINOU ( 'eigtst', 'AUS', IERR )
 !	  
-      CALL HEENTER
+      CALL heenter
 !
 ! *** Ende von eigtst
 !
