@@ -40,9 +40,20 @@
 !                                                                            *
 !*****************************************************************************
 !
-      SUBROUTINE EIGTST (CHSELECT, IERRIN )
+      SUBROUTINE EIGTST ( DMAT, ILINE, ICOLUMN, IERRIN )
 !
 !........1.........2.........3.........4.........5.........6.........7.|.......8 
+!
+! ======================================================================
+!IT*  I N I T I A L I S I E R U N G S T E I L
+! ======================================================================
+! 
+!     ISO Fortran Standard and precision definition
+! 
+      use precision_fem
+!
+!     use matrix_fem
+!
 !
       IMPLICIT                         NONE
 !
@@ -51,119 +62,90 @@
       INTEGER                          I 
 	  INTEGER                          J 
       INTEGER                          N
-	  INTEGER                          ND
-	  INTEGER                          IDIML
-	  INTEGER                          IDIMC
-!
-      PARAMETER                        (N     = 4)
-      PARAMETER                        (ND    = N)	  
-	  PARAMETER                        (IDIML = N)
-	  PARAMETER                        (IDIMC = N)
 !
 ! *** INTEGER
 !
-      INTEGER                          CNT (N)
+!     INTEGER                          CNT (ILINE)
+      integer,      allocatable ::     CNT(:)
+!
 	  INTEGER                          EIGEN
 	  INTEGER                          BASIS
 	  INTEGER                          RES
 	  INTEGER                          LOW
 	  INTEGER                          HIGH
 	  INTEGER                          IERR
-	  INTEGER                          IERRIN 
-	  INTEGER                          IUNIT
-	  INTEGER                          IMAT (IDIML, IDIMC) 
-	  INTEGER                          ILINES
-	  INTEGER                          ICOLUM
 !
-! *** REAL
+      integer,         intent(in)  ::  iline
+      integer,         intent(in)  ::  icolumn
+      integer,         intent(out) ::  ierrin
 !
-      REAL                             RMAT (IDIML, IDIMC)
+      real(real64),    intent(in)  ::  dmat(iline, icolumn)
 !
-! *** Double PRECISION
+! *** Double PRECISION in new Fortran
 !
-      DOUBLE PRECISION                 MAT(ND,N)
-	  DOUBLE PRECISION                 WERTR(N)
-	  DOUBLE PRECISION                 WERTI(N)
-	  DOUBLE PRECISION                 EIVEC(ND,N)
-	  DOUBLE PRECISION                 SKAL(N)
-      DOUBLE PRECISION                 DMAT (IDIML, IDIMC)
+!	  DOUBLE PRECISION                 WERTR(ILINE)
+!	  DOUBLE PRECISION                 WERTI(ILINE)
+!	  DOUBLE PRECISION                 EIVEC(ILINE, ICOLUMN)
+!	  DOUBLE PRECISION                 SKAL(ILINE)
 !
-! *** CHARACTER
+      real(real64),     allocatable :: A(:,:)
+      real(real64),     allocatable :: WERTR(:)
+      real(real64),     allocatable :: WERTI(:)
+      real(real64),     allocatable :: EIVEC(:,:)
+      real(real64),     allocatable :: SKAL(:)
 !
-      CHARACTER                        OPCODE*1
-	  CHARACTER                        CHSELECT*1
+! *** Field dimensions
+!
+      N     = ILINE
+!
+! *** Storage allocation of internal fields
+!
+      allocate (CNT(n))
+      allocate (A(n,n))
+      allocate (WERTR(n))
+      allocate (WERTI(n))
+      allocate (EIVEC(n,n))
+      allocate (SKAL(n))
+!
+! ======================================================================
+!VT*  V E R A R B E I T U N G S T E I L
+! ======================================================================
+!	  
 !
 ! *** HELP Initialisierung 
 !
       CALL HEINOU ( 'eigtst', 'EIN', IERR ) 
+!
+! *** Test, if iline .eg. icolumn (quadratic matrix is necessary)
+! 
+      if (iline /= icolumn) then
+         ierrin = 1
+         return
+      end if	
 !
 ! *** Basis der Gleitkommadarstellung (Basis = 2)
 !
       BASIS = 2
 	  IERR  = 0
 !
-! *** Info aus Matrix-Datei lesen
+! *** Copy DMAT to internal Matrix a
 !
-      CALL HINFOMAT ( IUNIT, 'test.dat', ILINES, ICOLUM, OPCODE, IERR )
-!	  
-! *** Error check
-!
-      If ( IERR .NE. 0 ) THEN
-         write (*,*) ' '
-         write (*,*) ' Wrong Format in Matrix not allowed! '
-	     write (*,*) ' Input file in test.dat '
-		 write (*,*) ' '
-         write (*,*) ' Element at line and column = ', ILINES, ICOLUM
-	     write (*,*) ' has wrong format '
-         write (*,*) ' '		 
-         write (*,*) ' Program Stop '
-         write (*,*) ' '
-		    REWIND ( UNIT = IUNIT )
-      GOTO 9999
-	  ENDIF
-!
-! *** Only Double Precision allowed
-!
-      If ( OPCODE .NE. 'Y' ) THEN
-         write (*,*) ' '
-         write (*,*) ' Wrong Format in Matrix not allowed! '
-	     write (*,*) ' Input file in test.dat '
-		 write (*,*) ' '
-         write (*,*) ' Element at line and column = ', ILINES, ICOLUM
-	     write (*,*) ' has wrong format '
-         write (*,*) ' '		 
-         write (*,*) ' Program Stop '
-         write (*,*) ' '
-		    REWIND ( UNIT = IUNIT )
-      GOTO 9999
-	  ENDIF
-!
-! *** Einlesen des Testbeispiels aus 'test.dat' im Real Format
-!
-      CALL HREADMAT ( OPCODE, 'test.dat', IUNIT, 
-     +                IMAT, RMAT, DMAT, IDIML, 
-     +                IDIMC, ILINES, ICOLUM, IERR )
-!
+      A = DMAT
 !
 ! *** Testausgabe
 !
-      WRITE (*, 321)
-!
-  321 FORMAT ( /
-     +,/,         '    Testdaten werden von der Datei test.dat '
-     +,/,         '    eingelesen ! ',  ///           )
-!
-!
-! *** Double Precision Matrix DMAT output
+      CALL SYSTEM ( 'cls' )
 !
          write (*,*) ' '
-         write (*,*) ' Input Daten sind im Double Precision Format '
-         write (*,*) ' ------------------------------------------- '
+		 write (*,*) ' '
+         write (*,*) ' Test if Input Data in EIGTST       '
+         write (*,*) ' Input Data Double Precision Format '
+         write (*,*) ' ---------------------------------- '
          write (*,*) ' '
 !
          WRITE(*,2001)
-            DO 11 I=1,ILINES
-   11          WRITE(*,2011)(DMAT(I,J),J=1,ICOLUM)
+            DO 11 I=1,N
+   11          WRITE(*,2011)(DMAT(I,J),J=1,N)
          call heenter
 !
 ! *** Systembefehl absetzen
@@ -204,9 +186,11 @@
 !
       call heenter	  
 !
-! *** Double Precision Matrix
+! *** Integer Function for all Eigenvalues and Eigenvectors
 !
-      RES = EIGEN (BASIS, ND, N, DMAT, SKAL, EIVEC, WERTR, WERTI,
+!........1.........2.........3.........4.........5.........6.........7.|.......8 
+!
+      RES = EIGEN (BASIS, N, N, A, SKAL, EIVEC, WERTR, WERTI,
      +             CNT, LOW, HIGH)
 !
 !
@@ -217,11 +201,14 @@
 !
       GOTO (30,40,50),RES
    30 write (*,*) 'FEHLER: DIE ORDNUNG DER MATRIX IST KLEINER ALS 1 !'
+         call heenter
          goto 9998
    40 write (*,*) 'ABBRUCH: DIE MATRIX IST DIE NULLMATRIX !'
+         call heenter
          goto 9998
    50 write (*,*) 'ABBRUCH: MAX.SCHRITTZAHL FUER QR-VERFAHREN 
      +UEBERSCHRITTEN!'
+	     call heenter
 	     goto 9998
       ELSE
 !
@@ -236,8 +223,9 @@
 	  WRITE (*,*) ' '	  
       WRITE(*,2015)
       WRITE(*,2020)(WERTR(I),WERTI(I),I=1,N)
+	  call heenter
       WRITE(*,2030)
-      DO 20 I=1,N
+      DO 20 I=1,iline
    20 WRITE(*,2040)(EIVEC(I,J),J=1,N)
 !
 	  WRITE (*,*) ' '
@@ -247,6 +235,7 @@
 	  WRITE (*,*) ' '	  
 !
       write (*,*) 'BERECHNUNG PROGRAMMGEMAESS BEENDET!'
+	     call heenter
 	     goto 9998
       ENDIF
 !
@@ -270,17 +259,16 @@
 !
  9998 CONTINUE 
 !
-! *** Rewind and close input file
-!
-            REWIND ( UNIT = IUNIT )
-			CLOSE  ( UNIT = IUNIT )
+      deallocate   (A)
+      deallocate   (WERTR)
+      deallocate   (WERTI)
+      deallocate   (EIVEC)
+      deallocate   (SKAL)
 !
  9999 CONTINUE
 !
       CALL HEINOU ( 'eigtst', 'AUS', IERR )
 !	  
-      CALL heenter
-!
 ! *** Ende von eigtst
 !
       RETURN

@@ -46,10 +46,22 @@
 !                                                                            *
 !*****************************************************************************
 !
-      SUBROUTINE REALEIG_2 ( CHSELECT, IERRIN )
+      SUBROUTINE REALEIG_2 ( DMAT, ILINE, ICOLUMN, IERRIN )
 !
 !........1.........2.........3.........4.........5.........6.........7.........8.........9........10
+!
+!
+! ======================================================================
+!IT*  I N I T I A L I S I E R U N G S T E I L
+! ======================================================================
+!
+!     ISO Fortran Standard and precision definition
 ! 
+      use precision_fem
+!
+!     use matrix_fem
+! 
+!
       IMPLICIT                         NONE
 !
 ! *** INTEGER
@@ -63,55 +75,57 @@
 	  INTEGER                          LDVR
 	  INTEGER                          LWORK
 	  INTEGER                          IERR
-	  INTEGER                          IERRIN
-	  INTEGER                          INFO	
-      INTEGER                          IUNIT
-      INTEGER                          IDIML
-      INTEGER                          IDIMC	  
-      INTEGER                          ILINES
-      INTEGER                          ICOLUM	  
 !
-! *** PARAMETER
-!
-      PARAMETER                        (N     = 4) 
-	  PARAMETER                        (IDIML = N)
-	  PARAMETER                        (IDIMC = N)
-	  PARAMETER                        (LDA   = N)
-	  PARAMETER                        (LDVL  = N)
-	  PARAMETER                        (LDVR  = N)	  
- 	  PARAMETER                        (LWORK = 4*N)
-!
-! *** INTEGER Allocation
-!
-      INTEGER                          IMAT (IDIML, IDIMC) 
-!
-! *** REAL Allocation!
-! 
-      REAL                             RMAT (IDIML, IDIMC)
-!
-! *** DOUBLE PRECISION Allocation
-!
-      DOUBLE PRECISION                 DMAT (IDIML, IDIMC)
-!
-!........1.........2.........3.........4.........5.........6.........7.........8.........9........10
-!  
-!     DOUBLE PRECISION,   allocatable::A(:,:)
-      DOUBLE PRECISION                 A(LDA,N)
-	  DOUBLE PRECISION                 VL(LDVL,N)
-	  DOUBLE PRECISION                 VR(LDVR,N)
-	  DOUBLE PRECISION                 WORK (LWORK)
-	  DOUBLE PRECISION                 WR(N)
-	  DOUBLE PRECISION                 WI(N)
+      integer,         intent(in)  ::  iline
+      integer,         intent(in)  ::  icolumn
+      integer,         intent(out) ::  ierrin
+      INTEGER                          INFO	
 !
 !
-      CHARACTER                        OPCODE*1
-	  CHARACTER                        CHSELECT*1
-	  CHARACTER                        INOPT*1
-	  CHARACTER                        OUTOPT*1
-	  CHARACTER                        OPSTEUER*1
+! *** DOUBLE PRECISION - DMAT with matrix_fem.mod
+!
+      real(real64),     intent(in)  :: dmat(iline, icolumn)
+!
+! *** Character
+!
       CHARACTER                        JOBVL*1
 	  CHARACTER                        JOBVR*1
 !
+!........1.........2.........3.........4.........5.........6.........7.........8.........9........10
+!
+! *** Double Precision in new Fortran
+!
+      real(real64),     allocatable :: A(:,:)
+      real(real64),     allocatable :: VL(:,:)
+      real(real64),     allocatable :: VR(:,:)
+      real(real64),     allocatable :: WORK(:)
+      real(real64),     allocatable :: WR(:)
+      real(real64),     allocatable :: WI(:)
+!
+! *** Field dimensions
+!
+      N     = ILINE
+!
+      LDA   = N
+      LDVL  = N
+      LDVR  = N
+      LWORK = 4*N
+!
+      ierrin = 0
+!
+! *** Storage allocation of internal fields
+!
+      allocate (A(n,n))
+      allocate (VL(LDVL,N))
+      allocate (VR(LDVR,N))
+!
+      allocate (WORK(LWORK))
+      allocate (WR(N))
+      allocate (WI(N))
+!
+! ======================================================================
+!VT*  V E R A R B E I T U N G S T E I L
+! ======================================================================
 !
 !........1.........2.........3.........4.........5.........6.........7.........8.........9........10
 ! 
@@ -123,71 +137,32 @@
       JOBVL  = 'V'
       JOBVR  = 'V'
 !
-      ILINES = N
-	  ICOLUM = N 
+! *** Test, if iline .eg. icolumn (quadratic matrix is necessary)
+! 
+      if (iline /= icolumn) then
+         ierrin = 1
+         return
+      end if
 !
-! *** Info aus Matrix-Datei lesen
 !
-      CALL HINFOMAT ( IUNIT, 'test.dat', ILINES, ICOLUM, OPCODE, IERR )
-!	  
-! *** Error check
+! *** Copy DMAT to internal Matrix a
 !
-      If ( IERR .NE. 0 ) THEN
-         write (*,*) ' '
-         write (*,*) ' Wrong Format in Matrix not allowed! '
-	     write (*,*) ' Input file in test.dat '
-		 write (*,*) ' '
-         write (*,*) ' Element at line and column = ', ILINES, ICOLUM
-	     write (*,*) ' has wrong format '
-         write (*,*) ' '		 
-         write (*,*) ' Program Stop '
-         write (*,*) ' '
-		    REWIND ( UNIT = IUNIT )
-      GOTO 9999
-	  ENDIF
-!
-! *** Only Double Precision allowed
-!
-      If ( OPCODE .NE. 'Y' ) THEN
-         write (*,*) ' '
-         write (*,*) ' Wrong Format in Matrix not allowed! '
-	     write (*,*) ' Input file in test.dat '
-		 write (*,*) ' '
-         write (*,*) ' Element at line and column = ', ILINES, ICOLUM
-	     write (*,*) ' has wrong format '
-         write (*,*) ' '		 
-         write (*,*) ' Program Stop '
-         write (*,*) ' '
-		    REWIND ( UNIT = IUNIT )
-      GOTO 9999
-	  ENDIF
-!
-! *** Einlesen des Testbeispiels aus 'test.dat' im Real Format
-!
-      CALL HREADMAT ( OPCODE, 'test.dat', IUNIT, 
-     +                IMAT, RMAT, DMAT, IDIML, 
-     +                IDIMC, ILINES, ICOLUM, IERR )
-!
+      A = DMAT
 !
 ! *** Testausgabe
 !
-      WRITE (*, 321)
-!
-  321 FORMAT ( /
-     +,/,         '    Testdaten werden von der Datei test.dat '
-     +,/,         '    eingelesen ! ',  ///           )
-!
-!
-! *** Double Precision Matrix DMAT output
+      CALL SYSTEM ( 'cls' )
 !
          write (*,*) ' '
-         write (*,*) ' Input Daten sind im Double Precision Format '
-         write (*,*) ' ------------------------------------------- '
+		 write (*,*) ' '
+         write (*,*) ' Test if Input Data in REALEIG_2    '
+         write (*,*) ' Input Data Double Precision Format '
+         write (*,*) ' ---------------------------------- '
          write (*,*) ' '
 !
          WRITE(*,2001)
-            DO 11 I=1,ILINES
-   11          WRITE(*,2011)(DMAT(I,J),J=1,ICOLUM)
+            DO 11 I=1,ILINE
+   11          WRITE(*,2011)(DMAT(I,J),J=1,ICOLUMN)
          call heenter
 !
 ! *** Systembefehl absetzen
@@ -227,8 +202,8 @@
 	  WRITE (*,*) ' Suitable for medium matrix size - for small FEA '
 	  WRITE (*,*) ' issues.'
       WRITE (*,*) ' '
-      WRITE (*,*) ' Achtung: Eingabematrix nur im Double Precision '	  
-	  WRITE (*,*) '          Format zulaessig!'	  
+      WRITE (*,*) ' Achtung: Input matrix only in Double Precision Format '	  
+	  WRITE (*,*) '           '	  
 	  WRITE (*,*) '          Eingabe im standard REAL Format folgt'
       WRITE (*,*) '          Programm Abbruch!!! '	  
 	  WRITE (*,*) ' '
@@ -363,8 +338,10 @@
 !
 !........1.........2.........3.........4.........5.........6.........7.........8.........9........10
 !
+!    Mit A in Unterprogramm, nicht mit DMAT, da Matrix überschrieben
+!    wird!!!!
 !
-      call DGEEV ( JOBVL, JOBVR, N, DMAT, LDA, WR, WI, VL, LDVL, 
+      call DGEEV ( JOBVL, JOBVR, N, A, LDA, WR, WI, VL, LDVL, 
      &             VR, LDVR, WORK, LWORK, INFO )
 !
 !
@@ -377,20 +354,21 @@
 	  WRITE (*,*) ' ==========='
 	  WRITE (*,*) ' '	  
           WRITE(*,2020)
-          WRITE(*,2030)(WR(I),WI(I),I=1,N)
+          WRITE(*,2030)(WR(I),WI(I),I=1,ILINE)
 !
           call heenter
 	   ENDIF
 !
+! *** write  VL!
       WRITE(*,2040)
-      DO 70 I=1,N
-   70 WRITE(*,2041)(VL(J,I), J=1,N)
+      DO 70 I=1,ILINE
+   70 WRITE(*,2041)(VL(J,I), J=1,ILINE)
 !
-!      write (*,*) VL
+! ***  write  VR
 !
       WRITE(*,2050)
-      DO 71 I=1,N
-   71 WRITE(*,2051)(VR(J,I), J=1,N)
+      DO 71 I=1,ILINE
+   71 WRITE(*,2051)(VR(J,I), J=1,ILINE)
 !
 	  WRITE (*,*) ' '
 	  WRITE (*,*) ' '
@@ -399,10 +377,15 @@
 	  WRITE (*,*) ' '	  
 !
       write (*,*) 'BERECHNUNG PROGRAMMGEMAESS BEENDET!'
-	     goto 9998
-! 
 !
-!     Format Instructions
+          call heenter
+!
+!
+! ======================================================================
+!AT*  A U S G A B E T E I L
+! ======================================================================
+!
+! *** Format Instructions
 !
 !........1.........2.........3.........4.........5.........6.........7.........8.........9........10
 
@@ -428,15 +411,20 @@
 !
  9998 CONTINUE 
 !
-! *** Rewind and close input file
+! 
+! *** De-Allocation of internal fields
 !
-            REWIND ( UNIT = IUNIT )
-			CLOSE  ( UNIT = IUNIT )
+      deallocate   (A)
+      deallocate   (VL)
+      deallocate   (VR)
+      deallocate   (WORK)
+      deallocate   (WR)
+      deallocate   (WI)      
 !
  9999 CONTINUE
 !
       CALL HEINOU ( 'realeig_2', 'AUS', IERR )
-	  call heenter
+!	  call heenter
 !
 ! *** Ende von realeig_2
 !

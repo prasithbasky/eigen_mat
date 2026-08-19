@@ -12,12 +12,8 @@
 !                                                                           *
 !     TESTBEISPIEL:                                                         *
 !     =============                                                         *
-!     MATRIX A:                                                             *
+!     MATRIX DMAT read from file                                            *
 !                                                                           *
-!        -2.00000D+00     2.00000D+00     2.00000D+00     2.00000D+00       *
-!        -3.00000D+00     3.00000D+00     2.00000D+00     2.00000D+00       *
-!        -2.00000D+00      .00000D+00     4.00000D+00     2.00000D+00       *
-!        -1.00000D+00      .00000D+00      .00000D+00     5.00000D+00       *
 !                                                                           *
 !     GEWUENSCHTE PARAMETER:                                                *
 !                                                                           *
@@ -25,18 +21,21 @@
 !        FEHLERSCHRANKE:   .100E-13                                         *
 !                                                                           *
 !                                                                           *
-!     LOESUNG                                                               *
-!                                                                           *
-!     EIGENWERT:  4.00000D+00                                               *
-!                                                                           *
-!     EIGENVEKTOR:                                                          *
-!          5.00000D-01    5.00000D-01    5.00000D-01    5.00000D-01         *
-!         STOP BERECHNUNG PROGRAMMGEMAESS BEENDET!                          *
-!                                                                           *
 !****************************************************************************
 !
-      SUBROUTINE MISTST ( CHSELECT, IERRIN )
+      SUBROUTINE MISTST ( DMAT, ILINE, ICOLUMN, IERRIN )
 !........1.........2.........3.........4.........5.........6.........7.|.......8
+!
+!
+! ======================================================================
+!IT*  I N I T I A L I S I E R U N G S T E I L
+! ======================================================================
+! 
+!     ISO Fortran Standard and precision definition
+! 
+      use precision_fem
+!
+!     use matrix_fem
 !
       IMPLICIT                         NONE
 !
@@ -45,129 +44,86 @@
       INTEGER                          I 
 	  INTEGER                          J 
       INTEGER                          N
-	  INTEGER                          ND
-	  INTEGER                          IDIML
-	  INTEGER                          IDIMC
-!
-      PARAMETER                        (N     = 4)
-      PARAMETER                        (ND    = N)	  
-	  PARAMETER                        (IDIML = N)
-	  PARAMETER                        (IDIMC = N)
-
-!     IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      INTEGER                          MO
 !
 ! *** INTEGER
 !
+      INTEGER                          IER
 	  INTEGER                          IERR
-	  INTEGER                          IERRIN
-	  INTEGER                          IER
-	  INTEGER                          MO
-	  INTEGER                          IUNIT
-	  INTEGER                          IMAT (IDIML, IDIMC) 
-	  INTEGER                          ILINES
-	  INTEGER                          ICOLUM
-!
-! *** REAL
-!
-      REAL                             RMAT (IDIML, IDIMC)
+      integer,         intent(in)  ::  iline
+      integer,         intent(in)  ::  icolumn
+      integer,         intent(out) ::  ierrin
 !
 !
-! *** Double PRECISION
+! *** Double PRECISION in new Fortran
 !
-      DOUBLE PRECISION                 A (ND, ND)
-	  DOUBLE PRECISION                 Z (ND)
-	  DOUBLE PRECISION                 X (ND)
-	  DOUBLE PRECISION                 Y (ND)
+      real(real64),     allocatable :: A(:,:)
+	  real(real64),     allocatable :: Z(:)
+	  real(real64),     allocatable :: Y(:)
+	  real(real64),     allocatable :: X(:)
 !
-      DOUBLE PRECISION                 MAT(ND,N)
-	  DOUBLE PRECISION                 WERTR(N)
-	  DOUBLE PRECISION                 WERTI(N)
-	  DOUBLE PRECISION                 EIVEC(ND,N)
-	  DOUBLE PRECISION                 EW
+!	  DOUBLE PRECISION                 Z (ILINE)
+!	  DOUBLE PRECISION                 X (ILINE)
+!	  DOUBLE PRECISION                 Y (ILINE)
 !
-      DOUBLE PRECISION                 EPSI
+      real(real64)                     EPSI
+	  real(real64)                     EW
 !
-	  DOUBLE PRECISION                 SKAL(N)
-      DOUBLE PRECISION                 DMAT (IDIML, IDIMC)
+      real(real64),    intent(in)  ::  dmat(iline, icolumn)
 !
-! *** CHARACTER
 !
-      CHARACTER                        OPCODE*1
-	  CHARACTER                        CHSELECT*1
+! *** Field dimensions
+!
+      N     = ILINE
+!
+!
+! *** Storage allocation of internal fields
+!
+      allocate (A(n,n))
+	  allocate (Z(n))
+	  allocate (Y(n))
+	  allocate (X(n))
+!
+! ======================================================================
+!VT*  V E R A R B E I T U N G S T E I L
+! ======================================================================
 !	  
 !
 ! *** HELP Initialisierung 
 ! 
       CALL HEINOU ( 'mistst', 'EIN', IERR )
-!  
-       IERR = 0
 !
+! *** Test, if iline .eg. icolumn (quadratic matrix is necessary)
+! 
+      if (iline /= icolumn) then
+         ierrin = 1
+         return
+      end if	  
+!
+! *** von Mises parameter
+! 
+       IERR = 0
        MO   = 100
-!      MO   = 10000
 	   EPSI = 1.E-14
 !
-! *** Info aus Matrix-Datei lesen
+! *** Copy DMAT to internal Matrix a
 !
-      CALL HINFOMAT ( IUNIT, 'test.dat', ILINES, ICOLUM, OPCODE, IERR )
-!	  
-! *** Error check
-!
-      If ( IERR .NE. 0 ) THEN
-         write (*,*) ' '
-         write (*,*) ' Wrong Format in Matrix not allowed! '
-	     write (*,*) ' Input file in test.dat '
-		 write (*,*) ' '
-         write (*,*) ' Element at line and column = ', ILINES, ICOLUM
-	     write (*,*) ' has wrong format '
-         write (*,*) ' '		 
-         write (*,*) ' Program Stop '
-         write (*,*) ' '
-		    REWIND ( UNIT = IUNIT )
-      GOTO 9999
-	  ENDIF
-!
-! *** Only Double Precision allowed
-!
-      If ( OPCODE .NE. 'Y' ) THEN
-         write (*,*) ' '
-         write (*,*) ' Wrong Format in Matrix not allowed! '
-	     write (*,*) ' Input file in test.dat '
-		 write (*,*) ' '
-         write (*,*) ' Element at line and column = ', ILINES, ICOLUM
-	     write (*,*) ' has wrong format '
-         write (*,*) ' '		 
-         write (*,*) ' Program Stop '
-         write (*,*) ' '
-		    REWIND ( UNIT = IUNIT )
-      GOTO 9999
-	  ENDIF
-!
-! *** Einlesen des Testbeispiels aus 'test.dat' im Real Format
-!
-      CALL HREADMAT ( OPCODE, 'test.dat', IUNIT, 
-     +                IMAT, RMAT, DMAT, IDIML, 
-     +                IDIMC, ILINES, ICOLUM, IERR )
-!
+      A = DMAT
 !
 ! *** Testausgabe
 !
-      WRITE (*, 321)
-!
-  321 FORMAT ( /
-     +,/,         '    Testdaten werden von der Datei test.dat '
-     +,/,         '    eingelesen ! ',  ///           )
-!
-!
-! *** Double Precision Matrix DMAT output
+      CALL SYSTEM ( 'cls' )
 !
          write (*,*) ' '
-         write (*,*) ' Input Daten sind im Double Precision Format '
-         write (*,*) ' ------------------------------------------- '
+		 write (*,*) ' '
+         write (*,*) ' Test if Input Data in MISTST       '
+         write (*,*) ' Input Data Double Precision Format '
+         write (*,*) ' ---------------------------------- '
          write (*,*) ' '
 !
          WRITE(*,2001)
-            DO 11 I=1,ILINES
-   11          WRITE(*,2011)(DMAT(I,J),J=1,ICOLUM)
+            DO 11 I=1,ILINE
+   11          WRITE(*,2011)(DMAT(I,J),J=1,ICOLUMN)
          call heenter
 !
 !
@@ -211,7 +167,7 @@
 !
 ! *** Double Precision Matrix
 !
-      CALL EIWERT (DMAT, N, ND, MO, EPSI, X, Y, Z, EW, IER)
+      CALL EIWERT (A, N, N, MO, EPSI, X, Y, Z, EW, IER)
 !
 !
 	  WRITE (*,*) ' '
@@ -260,10 +216,10 @@
 !
  9998 CONTINUE 
 !
-! *** Rewind and close input file
-!
-            REWIND ( UNIT = IUNIT )
-			CLOSE  ( UNIT = IUNIT )
+      deallocate   (A)
+	  deallocate   (Z)
+	  deallocate   (Y)
+	  deallocate   (X)
 !
  9999 CONTINUE
 !

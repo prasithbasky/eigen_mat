@@ -1,17 +1,18 @@
 !
 ! REALEI_3  TEST Routine for the ARPACK Subroutines DNAUPD          2026/05/26
-!                                              DNEUPD
+!                                                   DNEUPD
 !
 !                                              (Axel Hänschke)
+!                                              (Prasith Basky Murugaperumal)
 !........1.........2.........3.........4.........5.........6.........7.........8.........9........10
 !*****************************************************************************
 !                                                                            *
-!     Test (Main) Program for the ARPACK Subroutines                         *
+!     Test Program for the ARPACK Subroutines                                *
 !                                              DNAUPD                        *
 !                                              DNEUPD                        *
 !                                                                            *
-!     The routine calculates eigenvalues and eigenvectors of a general        *
-!     real non-symmetric matrix using the Implicitly Restarted Arnoldi        *
+!     The routine calculates eigenvalues and eigenvectors of a general       *
+!     real non-symmetric matrix using the Implicitly Restarted Arnoldi       *
 !     Method (IRAM) from ARPACK.                                             *
 !                                                                            *
 !     MIT DEN VORGEGEBENEN DATEN ERHALTEN SIE AUF dem Laptop HP PROBOOK      *
@@ -37,9 +38,21 @@
 !                                                                            *
 !*****************************************************************************
 !
-      SUBROUTINE REALEIG_3 ( CHSELECT, IERRIN )
+      SUBROUTINE REALEIG_3 ( DMAT, ILINE, ICOLUMN, IERRIN )
 !
 !........1.........2.........3.........4.........5.........6.........7.........8.........9........10
+! 
+!
+! ======================================================================
+!IT*  I N I T I A L I S I E R U N G S T E I L
+! ======================================================================
+!
+!     ISO Fortran Standard and precision definition
+! 
+      use precision_fem
+!
+!     use matrix_fem
+!
 !
       IMPLICIT                         NONE
 !
@@ -50,36 +63,29 @@
       INTEGER                          N
       INTEGER                          LDA
       INTEGER                          IERR
-      INTEGER                          IERRIN
-      INTEGER                          IUNIT
-      CHARACTER                        CHSELECT*1
-      INTEGER                          IDIML
-      INTEGER                          IDIMC
-      INTEGER                          ILINES
-      INTEGER                          ICOLUM
+!
+      integer,         intent(in)  ::  iline
+      integer,         intent(in)  ::  icolumn
+      integer,         intent(out) ::  ierrin
 !
 ! *** PARAMETER
 !
-      PARAMETER                        (N     = 4)
-      PARAMETER                        (IDIML = N)
-      PARAMETER                        (IDIMC = N)
-      PARAMETER                        (LDA   = N)
+!     PARAMETER                        (N     = 4)
+!     PARAMETER                        (IDIML = N)
+!     PARAMETER                        (IDIMC = N)
+!     PARAMETER                        (LDA   = N)
 !
-! *** INTEGER Allocation
-!
-      INTEGER                          IMAT (IDIML, IDIMC)
-!
-! *** REAL Allocation
-!
-      REAL                             RMAT (IDIML, IDIMC)
-!
-! *** DOUBLE PRECISION Allocation
-!
-      DOUBLE PRECISION                 DMAT (IDIML, IDIMC)
 !
 !........1.........2.........3.........4.........5.........6.........7.........8.........9........10
 !
-      CHARACTER                        OPCODE*1
+! *** DOUBLE PRECISION - DMAT
+!
+      real(real64),     intent(in)  :: dmat(iline, icolumn)
+!
+!
+! *** Double Precision in new Fortran
+!
+      real(real64),     allocatable :: A(:,:)
 !
 ! *** ARPACK parameters
 !
@@ -89,28 +95,87 @@
       INTEGER                          LWORKL
       INTEGER                          IDO
       INTEGER                          INFO
-      INTEGER                          IPARAM(11)
-      INTEGER                          IPNTR(14)
-      PARAMETER                        (NEV    = 2)
-      PARAMETER                        (NCV    = N)
-      PARAMETER                        (LDV    = N)
-      PARAMETER                        (LWORKL = 3*NCV*NCV + 6*NCV)
+	  INTEGER                          NPARAM
+	  INTEGER                          NPNTR
+!
+!      INTEGER                          IPARAM(11) -- NPARAM = 11
+!      INTEGER                          IPNTR(14)  -- NPNTR  = 14
+      integer,        allocatable ::   IPARAM(:)
+	  integer,        allocatable ::   IPNTR(:) 
+!
+!     PARAMETER                        (NEV    = 2)
+!     PARAMETER                        (NCV    = N)
+!     PARAMETER                        (LDV    = N)
+!     PARAMETER                        (LWORKL = 3*NCV*NCV + 6*NCV)
+!
       LOGICAL                          RVEC
-      LOGICAL                          SELECT(NCV)
-      DOUBLE PRECISION                 TOL
-      DOUBLE PRECISION                 SIGMAR
-      DOUBLE PRECISION                 SIGMAI
-      DOUBLE PRECISION                 RESID(N)
-      DOUBLE PRECISION                 V(LDV, NCV)
-      DOUBLE PRECISION                 WORKD(3*N)
-      DOUBLE PRECISION                 WORKL(LWORKL)
-      DOUBLE PRECISION                 DR(NEV+1)
-      DOUBLE PRECISION                 DI(NEV+1)
-      DOUBLE PRECISION                 Z(N, NEV+1)
-      DOUBLE PRECISION                 WORKEV(3*NCV)
+!     LOGICAL                          SELECT(NCV)
+      logical,        allocatable ::   SELECT(:)
+!
+      real(real64)                     TOL
+      real(real64)                     SIGMAR
+      real(real64)                     SIGMAI
+!
+!     DOUBLE PRECISION                 RESID(N)
+!     DOUBLE PRECISION                 V(LDV, NCV)
+!     DOUBLE PRECISION                 WORKD(3*N)
+!     DOUBLE PRECISION                 WORKL(LWORKL)
+!     DOUBLE PRECISION                 DR(NEV+1)
+!     DOUBLE PRECISION                 DI(NEV+1)
+!     DOUBLE PRECISION                 Z(N, NEV+1)
+!     DOUBLE PRECISION                 WORKEV(3*NCV)
+!
+      real(real64),     allocatable :: RESID(:)
+	  real(real64),     allocatable :: V(:,:)
+      real(real64),     allocatable :: WORKD(:)
+      real(real64),     allocatable :: WORKL(:)
+      real(real64),     allocatable :: DR(:)
+      real(real64),     allocatable :: DI(:)
+      real(real64),     allocatable :: Z(:,:)
+      real(real64),     allocatable :: WORKEV(:)	  
+!
       CHARACTER                        BMAT*1
       CHARACTER                        WHICH*2
       CHARACTER                        HOWMNY*1
+!
+!
+! *** Field dimensions
+!
+      N          = ILINE
+	  NEV        = 2
+	  NCV        = N
+	  LDA        = N
+	  LDV        = N 
+	  LWORKL     = 3*NCV*NCV + 6*NCV
+!
+	  NPARAM     = 11
+	  NPNTR      = 14
+!
+      ierrin     = 0
+!
+! *** Storage allocation of internal fields
+!
+      allocate (A(n,n))
+!
+      allocate (IPARAM(nparam))
+	  allocate (IPNTR(npntr))
+!
+      allocate (SELECT(ncv))
+!
+      allocate (RESID(n))
+	  allocate (V(ldv,ncv))
+	  allocate (WORKD(3*n))
+	  allocate (WORKL(lworkl))
+	  allocate (DR(nev+1))
+	  allocate (DI(nev+1))
+	  allocate (Z(n,nev+1))
+	  allocate (WORKEV(3*ncv))
+!
+
+!
+! ======================================================================
+!VT*  V E R A R B E I T U N G S T E I L
+! ======================================================================
 !
 !........1.........2.........3.........4.........5.........6.........7.........8.........9........10
 !
@@ -119,73 +184,31 @@
 !
       CALL HEINOU ( 'realeig_3', 'EIN', IERR )
 !
-      IUNIT   = 0
-	  ILINES  = 0
-      ICOLUM  = 0
-      OPCODE  = ' '	  
 !
-! *** Info aus Matrix-Datei lesen
+! *** Test, if iline .eg. icolumn (quadratic matrix is necessary)
+! 
+      if (iline /= icolumn) then
+         ierrin = 1
+         return
+      end if	
 !
-      CALL HINFOMAT ( IUNIT, 'test.dat', ILINES, ICOLUM, OPCODE, IERR )
-!	  
-! *** Error check
+! *** Copy DMAT to internal Matrix a
 !
-      If ( IERR .NE. 0 ) THEN
-         write (*,*) ' '
-         write (*,*) ' Wrong Format in Matrix not allowed! '
-	     write (*,*) ' Input file in test.dat '
-		 write (*,*) ' '
-         write (*,*) ' Element at line and column = ', ILINES, ICOLUM
-	     write (*,*) ' has wrong format '
-         write (*,*) ' '		 
-         write (*,*) ' Program Stop '
-         write (*,*) ' '
-		    REWIND ( UNIT = IUNIT )
-      GOTO 9999
-	  ENDIF
-!
-! *** Only Double Precision allowed
-!
-      If ( OPCODE .NE. 'Y' ) THEN
-         write (*,*) ' '
-         write (*,*) ' Wrong Format in Matrix not allowed! '
-	     write (*,*) ' Input file in test.dat '
-		 write (*,*) ' '
-         write (*,*) ' Element at line and column = ', ILINES, ICOLUM
-	     write (*,*) ' has wrong format '
-         write (*,*) ' '		 
-         write (*,*) ' Program Stop '
-         write (*,*) ' '
-		    REWIND ( UNIT = IUNIT )
-      GOTO 9999
-	  ENDIF
-!
-! *** Einlesen des Testbeispiels aus 'test.dat' im Real Format
-!
-      CALL HREADMAT ( OPCODE, 'test.dat', IUNIT,
-     +                IMAT, RMAT, DMAT, IDIML,
-     +                IDIMC, ILINES, ICOLUM, IERR )
-!
+      A = DMAT
 !
 ! *** Testausgabe
 !
-      WRITE (*, 321)
-!
-  321 FORMAT ( /
-     +,/,         '    Testdaten werden von der Datei test_sym.dat '
-     +,/,         '    eingelesen ! ',  ///           )
-!
-!
-! *** Double Precision Matrix DMAT output
+      CALL SYSTEM ( 'cls' )
 !
          write (*,*) ' '
-         write (*,*) ' Input Daten sind im Double Precision Format '
-         write (*,*) ' ------------------------------------------- '
+		 write (*,*) ' '
+         write (*,*) ' Test if Input Data in REALEIG_3    '
+         write (*,*) ' Input Data Double Precision Format '
+         write (*,*) ' ---------------------------------- '
          write (*,*) ' '
-!
          WRITE(*,2001)
-            DO 11 I=1,ILINES
-   11          WRITE(*,2011)(DMAT(I,J),J=1,ICOLUM)
+            DO 11 I=1,ILINE
+   11          WRITE(*,2011)(DMAT(I,J),J=1,ICOLUMN)
          call heenter
 !
 ! *** Systembefehl absetzen
@@ -264,7 +287,7 @@
 !
 !        Y = A * X  (matrix-vector product)
 !
-         CALL DGEMV ( 'N', N, N, 1.0D0, DMAT, LDA,
+         CALL DGEMV ( 'N', N, N, 1.0D0, A, LDA,
      &                WORKD(IPNTR(1)), 1,
      &                0.0D0, WORKD(IPNTR(2)), 1 )
          GOTO 90
@@ -305,7 +328,7 @@
          WRITE(*,2020)
          WRITE(*,2030)(DR(I),DI(I),I=1,NEV)
 !
-         call heenter
+!        call heenter
       ENDIF
 !
       WRITE(*,2040)
@@ -319,7 +342,13 @@
       WRITE (*,*) ' '
 !
       write (*,*) 'BERECHNUNG PROGRAMMGEMAESS BEENDET!'
+	  call heenter
          goto 9998
+!
+!
+! ======================================================================
+!AT*  A U S G A B E T E I L
+! ======================================================================
 !
 !
 !     Format Instructions
@@ -338,16 +367,29 @@
  2041 FORMAT(10(1X,D12.4))
 !
  9998 CONTINUE
+! 
+! *** De-Allocation of internal fields
 !
-! *** Rewind and close input file
+      deallocate   (A)
 !
-            REWIND ( UNIT = IUNIT )
-			CLOSE  ( UNIT = IUNIT )
+      deallocate (IPARAM)
+	  deallocate (IPNTR)
+!
+      deallocate (SELECT)
+!
+      deallocate (RESID)
+	  deallocate (V)
+	  deallocate (WORKD)
+	  deallocate (WORKL)
+	  deallocate (DR)
+	  deallocate (DI)
+	  deallocate (Z)
+	  deallocate (WORKEV)
 !
  9999 CONTINUE
 !
       CALL HEINOU ( 'realeig_3', 'AUS', IERR )
-	  call heenter
+!	  call heenter
 !
 ! *** Ende von realeig_3
 !
