@@ -132,7 +132,8 @@
       WRITE (*,*) '   b) Program eigtst      all eigenvalues/vectors '
       WRITE (*,*) '   c) Program realeig_2   LAPACK DGEEV '
       WRITE (*,*) '   d) Program realeig_3   ARPACK DNAUPD nonsymmetric'
-      WRITE (*,*) '   e) Program realeig_4   ARPACK DSAUPD symmetric   '
+      WRITE (*,*) '   f) Program radioss_eigen  OpenRadioss Implicit Matrix'
+      WRITE (*,*) '   g) Program radioss_arpack OpenRadioss Matrix (ARPACK DSAUPD)'
       WRITE (*,*) ' '
       WRITE (*,*) '    s) Program STOP '
 	  WRITE (*,*) ' '
@@ -172,6 +173,10 @@
          GOTO  1004
       ELSEIF ( CHSELECT(1:1) .EQ.'E' .OR. CHSELECT(1:1) .EQ. 'e' ) THEN
          GOTO  1005
+      ELSEIF ( CHSELECT(1:1) .EQ.'F' .OR. CHSELECT(1:1) .EQ. 'f' ) THEN
+         GOTO  1006
+      ELSEIF ( CHSELECT(1:1) .EQ.'G' .OR. CHSELECT(1:1) .EQ. 'g' ) THEN
+         GOTO  1007
 !
       ELSEIF ( CHSELECT(1:1) .EQ.'S' .OR. CHSELECT(1:1) .EQ. 's' ) THEN
          GOTO 9999
@@ -221,6 +226,22 @@
  1005 CONTINUE
 !
       CALL REALEIG_4 ( CHSELECT, IERRIN )
+!
+      GOTO 1000
+!
+! *** Selection of method f)
+!
+ 1006 CONTINUE
+!
+      CALL RADIOSS_EIGEN ( CHSELECT, IERRIN )
+!
+      GOTO 1000
+!
+! *** Selection of method g)
+!
+ 1007 CONTINUE
+!
+      CALL RADIOSS_ARPACK ( CHSELECT, IERRIN )
 !
       GOTO 1000
 !

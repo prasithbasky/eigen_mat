@@ -1,0 +1,30 @@
+      PROGRAM PRINT_MASS
+      IMPLICIT NONE
+      INTEGER NDDL, NNZK, NDDLI, NNZI, NUMNOD
+      INTEGER, ALLOCATABLE :: IADK(:), JDIK(:), IDDL(:), NDOF(:)
+      DOUBLE PRECISION, ALLOCATABLE :: DIAG_K(:), LT_K(:), MS(:), IN(:)
+      DOUBLE PRECISION, ALLOCATABLE :: LB(:)
+      INTEGER UNIT_NO, IERR, I
+      
+      OPEN(UNIT=10, FILE='implicit_matrices.bin', STATUS='OLD',
+     .     FORM='UNFORMATTED', ACCESS='STREAM', IOSTAT=IERR)
+      READ(10) NDDL, NNZK, NDDLI, NNZI, NUMNOD
+      ALLOCATE(IADK(NDDL+1), JDIK(NNZK), DIAG_K(NDDL), LT_K(NNZK))
+      ALLOCATE(LB(NDDLI))
+      ALLOCATE(IDDL(NUMNOD), NDOF(NUMNOD), MS(NUMNOD), IN(NUMNOD))
+
+      READ(10) IADK, JDIK, DIAG_K, LT_K
+      READ(10) LB
+      READ(10) IDDL, NDOF, MS, IN
+      CLOSE(10)
+      
+      WRITE(*,*) 'Total Mass = ', SUM(MS)
+      WRITE(*,*) 'First 5 MS:'
+      DO I = 1, 5
+         WRITE(*, '(I4,E17.6)') I, MS(I)
+      END DO
+      WRITE(*,*) 'First 5 IN:'
+      DO I = 1, 5
+         WRITE(*, '(I4,E17.6)') I, IN(I)
+      END DO
+      END PROGRAM PRINT_MASS

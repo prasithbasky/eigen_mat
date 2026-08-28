@@ -1,0 +1,3 @@
+      PROGRAM RUN_TEST
+      CALL RADIOSS_ARPACK('g', 0)
+      END PROGRAM
