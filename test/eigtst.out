@@ -1,0 +1,72 @@
+ 
+ 
+      +------------------------------------------------------------------------------------------+
+      |                                                                                          |
+      |                  Programm: EIGENVALUE                                                    |
+      |                  ====================                                                    |
+      |                                                                                          |
+      |                  +--------------------------------------------+                          |
+      |                  | >>>>>>      Subroutine: EIGTST      <<<<<< |                          |
+      |                  +--------------------------------------------+                          |
+      |                                                                                          |
+      |                                                                                          |
+      |                  TESTPROGRAMM ZUM UNTERPROGRAMM  P 7.8  EIGEN                            |
+      |                  BERECHNUNG ALLER EIGENWERTE UND EIGENVEKTOREN EINER                     |
+      |                  MATRIX A NACH DEM VERFAHREN VON MARTIN,PARLETT,                         |
+      |                  PETERS,REINSCH UND WILKINSON.                                           |
+      |                                                                                          |
+      |                  Quelle: G. Engeln-Muellges / F. Reutter                                 |
+      |                                                                                          |
+      |                  Formelsammlung zur numerischen Mathematik                               |
+      |                  mit Standard Fortran 77-Programmen                                      |
+      |                                                                                          |
+      |                  B.I. Wissenschaftsverlag Mannheim/Wien/Zuerich                          |
+      |                                                                                          |
+      |                       6. Auflage 1988                                                    |
+      |                                                                                          |
+      |                       Fuer kleine und mittlere gut konditionierte Matrizen               |
+      |                       geeignet!                                                          |
+      |                                                                                          |
+      |                  Achtung: Eingabematrix nur im Double Precision                          |
+      |                           Format zulaessig!                                              |
+      |                           Eingabe im standard REAL Format folgt                          |
+      |                           Programm Abbruch!!!                                            |
+      |                                                                                          |
+      |                                                                                          |
+      |                                                                                          |
+      |                                                                                          |
+      +------------------------------------------------------------------------------------------+
+ 
+ 
+                 ===== BERECHNUNG PROGRAMMGEMAESS BEENDET! =====   
+ 
+ 
+ 
+      +-----------------------------------------------------------------------------------------+
+ 
+                Ergebnisse:
+                ===========
+ 
+
+                -BERECHNETE EIGENWERTE:    REALTEIL     I  IMAGINAERTEIL
+                                         -------------------------------
+                                            0.10000D+01 I    0.00000D+00
+                                            0.20000D+01 I    0.00000D+00
+                                            0.30000D+01 I    0.00000D+00
+                                            0.40000D+01 I    0.00000D+00
+ 
+ 
+ 
+ 
+
+                -MATRIX DER NORMALISIERTEN EIGENVEKTOREN:
+
+                 0.1000D+01    0.1000D+01    0.1000D+01    0.1000D+01
+                 0.7500D+00    0.1000D+01    0.1000D+01    0.1000D+01
+                 0.5000D+00    0.6667D+00    0.1000D+01    0.1000D+01
+                 0.2500D+00    0.3333D+00    0.5000D+00    0.1000D+01
+ 
+ 
+      +-----------------------------------------------------------------------------------------+
+ 
+ 

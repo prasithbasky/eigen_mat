@@ -1,0 +1,79 @@
+ 
+ 
+      +------------------------------------------------------------------------------------------+
+      |                                                                                          |
+      |                  Programm: EIGENVALUE                                                    |
+      |                  ====================                                                    |
+      |                                                                                          |
+      |                  +-----------------------------------------------+                       |
+      |                  | >>>>>>      Subroutine: REALEIG_2      <<<<<< |                       |
+      |                  +-----------------------------------------------+                       |
+      |                                                                                          |
+      |                  DGEEV computes for an N-by-N real nonsymmetric                          |
+      |                  matrix A, the eigenvalues and, optionally, the                          |
+      |                  left and/or right eigenvectors.                                         |
+      |                                                                                          |
+      |                  The right eigenvector v(j) of A satisfies                               |
+      |                  A * v(j) = lambda(j) * v(j)                                             |
+      |                  where lambda(j) is its eigenvalue.                                      |
+      |                  The left eigenvector u(j) of A satisfies                                |
+      |                  u(j)**H * A = lambda(j) * u(j)**H                                       |
+      |                  where u(j)**H denotes the conjugate-transpose of                        |
+      |                  u(j).                                                                   |
+      |                                                                                          |
+      |                  The computed eigenvectors are normalized to have                        |
+      |                  Euclidean norm equal to 1 and largest component                         |
+      |                                                                                          |
+      |                                                                                          |
+      |                  Compute all eigenvalues and eigenvectors                                |
+      |                                                                                          |
+      |                  Source: LAPACK 3.12.1                                                   |
+      |                                                                                          |
+      |                  https://www.netlib.org/lapack/explore-html/index.html                   |
+      |                                                                                          |
+      |                                                                                          |
+      |                  Suitable for medium matrix size - for small FEA exmples                 |
+      |                  and suitable to compare issues with new algorithms.                     |
+      |                                                                                          |
+      |                                                                                          |
+      |                                                                                          |
+      |                                                                                          |
+      |                                                                                          |
+      +------------------------------------------------------------------------------------------+
+ 
+ 
+ 
+ 
+ 
+      +-----------------------------------------------------------------------------------------+
+ 
+                Ergebnisse:
+                ===========
+ 
+
+                -BERECHNETE EIGENWERTE:    REALTEIL    I  IMAGINAERTEIL
+                                        -------------------------------
+                                           0.10000D+01 I    0.00000D+00
+                                           0.20000D+01 I    0.00000D+00
+                                           0.30000D+01 I    0.00000D+00
+                                           0.40000D+01 I    0.00000D+00
+
+                -MATRIX DER NORMALISIERTEN EIGENVEKTOREN: - VL -
+
+                -0.7071D+00   0.7071D+00   0.1177D-14   0.1967D-15
+                -0.4082D+00   0.8165D+00  -0.4082D+00   0.8957D-15
+                 0.0000D+00   0.4082D+00  -0.8165D+00   0.4082D+00
+                 0.0000D+00   0.0000D+00  -0.4472D+00   0.8944D+00
+
+                -MATRIX DER NORMALISIERTEN EIGENVEKTOREN: - VR -
+
+                -0.7303D+00  -0.5477D+00  -0.3651D+00  -0.1826D+00
+                 0.6255D+00   0.6255D+00   0.4170D+00   0.2085D+00
+                -0.5547D+00  -0.5547D+00  -0.5547D+00  -0.2774D+00
+                 0.5000D+00   0.5000D+00   0.5000D+00   0.5000D+00
+ 
+ 
+      +-----------------------------------------------------------------------------------------+
+ 
+ 
+                 ===== BERECHNUNG PROGRAMMGEMAESS BEENDET! =====   

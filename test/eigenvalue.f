@@ -49,8 +49,8 @@
 !     ISO Fortran Standard and precision definition
 ! 
       use precision_fem
-!
       use matrix_fem
+	  use in_out_channels
 !
       implicit none
 !
@@ -169,7 +169,7 @@
       WRITE (*,*) '   f) Program realeig_5   ARPACK DSAUPD / DSEUPD            '
 	  WRITE (*,*) '                          Implicitly Restarted Lanczos      '
 	  WRITE (*,*) '                          method (IRLM) for real symmetric  '
-	  WRITE (*,*) '                          LAPACK DGEsV for                  '
+	  WRITE (*,*) '                          LAPACK DGESV for                  '
 	  WRITE (*,*) '                          the OP*x = (K-σM)^(-1) M x        '
       WRITE (*,*) '                          (operator calculation)            '
 	  WRITE (*,*) '                          M and K matrices required         '     

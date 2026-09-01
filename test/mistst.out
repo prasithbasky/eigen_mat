@@ -1,0 +1,56 @@
+ 
+ 
+      +------------------------------------------------------------------------------------------+
+      |                                                                                          |
+      |                  Programm: EIGENVALUE                                                    |
+      |                  ====================                                                    |
+      |                                                                                          |
+      |                  +--------------------------------------------+                          |
+      |                  | >>>>>>      Subroutine: MISTST      <<<<<< |                          |
+      |                  +--------------------------------------------+                          |
+      |                                                                                          |
+      |                                                                                          |
+      |                  TESTPROGRAMM ZUM UNTERPROGRAMM  P 7.3 EIWERT                            |
+      |                  BERECHNUNG DES BEITRAGSGROESSTEN EIGENWERTES UND                        |
+      |                  DES DAZUGEHOERIGEN EIGENVEKTORS EINER MATRIX A NACH                     |
+      |                  DEM VERFAHREN VON VON MISES.                                            |
+      |                                                                                          |
+      |                       Quelle: G. Engeln-Muellges / F. Reutter                            |
+      |                                                                                          |
+      |                               Formelsammlung zur numerischen Mathematik                  |
+      |                               mit Standard Fortran 77-Programmen                         |
+      |                                                                                          |
+      |                               B.I. Wissenschaftsverlag Mannheim/Wien/Zuerich             |
+      |                                                                                          |
+      |                               6. Auflage 1988                                            |
+      |                                                                                          |
+      |                  Nur fuer kleine und gut konditionierte Matrizen                         |
+      |                  geeignet!                                                               |
+      |                                                                                          |
+      |                  Achtung: Eingabematrix nur im Double Precision                          |
+      |                           Format zulaessig!                                              |
+      |                           Eingabe im standard REAL Format folgt                          |
+      |                           Programm Abbruch!!!                                            |
+      |                                                                                          |
+      +------------------------------------------------------------------------------------------+
+ 
+ 
+ 
+ 
+ 
+      +-----------------------------------------------------------------------------------------+
+ 
+                Ergebnisse:
+                ===========
+ 
+
+                EIGENWERT:    4.00000D+00
+
+                EIGENVEKTOR:
+                5.00000D-01      5.00000D-01      5.00000D-01      5.00000D-01
+ 
+ 
+      +-----------------------------------------------------------------------------------------+
+ 
+ 
+                 ===== BERECHNUNG PROGRAMMGEMAESS BEENDET! =====                                 

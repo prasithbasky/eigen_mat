@@ -1,0 +1,71 @@
+ 
+ 
+      +------------------------------------------------------------------------------------------+
+      |                                                                                          |
+      |                  Programm: EIGENVALUE                                                    |
+      |                  ====================                                                    |
+      |                                                                                          |
+      |                  +-----------------------------------------------+                       |
+      |                  | >>>>>>      Subroutine: REALEIG_4      <<<<<< |                       |
+      |                  +-----------------------------------------------+                       |
+      |                                                                                          |
+      |                                                                                          |
+      |                  ARPACK DSAUPD/DSEUPD: Implicitly Restarted Lanczos                      |
+      |                  Method (IRLM) for real symmetric matrix.                                |
+      |                                         ================                                 |
+      |                                                                                          |
+      |                  Computes NEV = 2 eigenvalues of largest algebraic                       |
+      |                  value (WHICH = LA) and corresponding eigenvectors.                      |
+      |                                                                                          |
+      |                  Mode 1: A*x = lambda*x  (standard symmetric)                            |
+      |                                                                                          |
+      |                  Source: ARPACK-NG 3.9.1                                                 |
+      |                  https://github.com/opencollab/arpack-ng                                 |
+      |                                                                                          |
+      |                  Documentation: ARPACK Users Guide                                       |
+      |                  R.B. Lehoucq, D.C. Sorensen, C. Yang                                    |
+      |                  SIAM, Philadelphia, 1998                                                |
+      |                                                                                          |
+      |                  Suitable for medium full dense and sparse matrices - standard           |
+      |                                                                                          |
+      |                  Test matrix: 4x4 symmetric tridiagonal (FEA-like)                       |
+      |                  Analytical eigenvalues ~= 0.382, 1.382, 2.618,                          |
+      |                  3.618  (lambda_k = 2 - 2*cos(k*pi/5))                                   |
+      |                                                                                          |
+      |                                                                                          |
+      |                                                                                          |
+      +------------------------------------------------------------------------------------------+
+ 
+ 
+ 
+ 
+            >>>>>     DSAUPD: INFO =            0
+            >>>>>     DSAUPD: IPARAM(5) converged Ritz values =            2
+ 
+ 
+            >>>>>     DSEUPD: IERR =            0
+ 
+ 
+ 
+ 
+      +-----------------------------------------------------------------------------------------+
+ 
+                Ergebnisse:
+                ===========
+ 
+
+                -BERECHNETE EIGENWERTE (groesste algebraische):
+ 
+                    0.26180D+01
+                    0.36180D+01
+
+                -MATRIX DER NORMALISIERTEN EIGENVEKTOREN: - Z -
+
+                 -0.6015D+00   0.3717D+00   0.3717D+00  -0.6015D+00
+                  0.3717D+00  -0.6015D+00   0.6015D+00  -0.3717D+00
+ 
+ 
+      +-----------------------------------------------------------------------------------------+
+ 
+ 
+                 ===== BERECHNUNG PROGRAMMGEMAESS BEENDET! =====   

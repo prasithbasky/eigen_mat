@@ -1,0 +1,72 @@
+ 
+ 
+      +------------------------------------------------------------------------------------------+
+      |                                                                                          |
+      |                  Programm: EIGENVALUE                                                    |
+      |                  ====================                                                    |
+      |                                                                                          |
+      |                  +-----------------------------------------------+                       |
+      |                  | >>>>>>      Subroutine: REALEIG_3      <<<<<< |                       |
+      |                  +-----------------------------------------------+                       |
+      |                                                                                          |
+      |                                                                                          |
+      |                  ARPACK DNAUPD/DNEUPD: Implicitly Restarted Arnoldi                      |
+      |                  Method (IRAM) for general real non-symmetric                            |
+      |                  matrix.                        =============                            |
+      |                                                                                          |
+      |                  Computes NEV = 2 eigenvalues of largest magnitude                       |
+      |                  (WHICH = LM) and corresponding eigenvectors.                            |
+      |                                                                                          |
+      |                  Mode 1: A*x = lambda*x  (standard eigenvalue)                           |
+      |                                                                                          |
+      |                  Source: ARPACK-NG 3.9.1                                                 |
+      |                                                                                          |
+      |                  https://github.com/opencollab/arpack-ng                                 |
+      |                                                                                          |
+      |                  Documentation: ARPACK Users Guide                                       |
+      |                  R.B. Lehoucq, D.C. Sorensen, C. Yang                                    |
+      |                  SIAM, Philadelphia, 1998                                                |
+      |                                                                                          |
+      |                  Suitable for medium full dense and sparse matrices - standard           |
+      |                  FEA.                                                                    |
+      |                                                                                          |
+      |                                                                                          |
+      |                                                                                          |
+      |                                                                                          |
+      |                                                                                          |
+      |                                                                                          |
+      +------------------------------------------------------------------------------------------+
+ 
+ 
+ 
+ 
+            >>>>>     DNAUPD: INFO =            0
+            >>>>>     DNAUPD: IPARAM(5) converged Ritz values =            2
+ 
+ 
+            >>>>>     DNEUPD: IERR =            0
+ 
+ 
+ 
+ 
+      +-----------------------------------------------------------------------------------------+
+ 
+                Ergebnisse:
+                ===========
+ 
+
+                -BERECHNETE EIGENWERTE:    REALTEIL    I  IMAGINAERTEIL
+                                        -------------------------------
+                                           0.40000D+01 I    0.00000D+00
+                                           0.30000D+01 I    0.00000D+00
+
+                -MATRIX DER NORMALISIERTEN EIGENVEKTOREN: - Z -
+
+                 0.5000D+00   0.5000D+00   0.5000D+00   0.5000D+00
+                 0.5547D+00   0.5547D+00   0.5547D+00   0.2774D+00
+ 
+ 
+      +-----------------------------------------------------------------------------------------+
+ 
+ 
+                 ===== BERECHNUNG PROGRAMMGEMAESS BEENDET! =====   
